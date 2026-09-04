@@ -1,0 +1,1 @@
+# jeedom-core-scenario-bloc-selection
