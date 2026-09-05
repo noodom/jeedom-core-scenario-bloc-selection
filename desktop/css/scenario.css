@@ -1,0 +1,299 @@
+#md_addElement .jeeDialogContent {
+	padding: 15px 20px 10px;
+}
+
+.addElementTypeSearch {
+  margin-bottom: 15px;
+}
+
+.addElementTypeSearch .input-group {
+  display: flex;
+  align-items: stretch;
+  height: 42px;
+}
+
+/*
+ * Loupe
+ */
+.addElementTypeSearch .input-group-addon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 52px;
+  min-width: 52px;
+  height: 42px;
+
+  padding: 0;
+  line-height: 1;
+
+  box-sizing: border-box;
+}
+
+/*
+ * Champ de recherche
+ */
+.addElementTypeSearch input.form-control {
+  height: 42px !important;
+  min-height: 42px;
+
+  padding-top: 0;
+  padding-bottom: 0;
+
+  box-sizing: border-box;
+
+  line-height: 42px;
+}
+
+.addElementTypeSearch .input-group-btn {
+  height: 42px;
+}
+
+.addElementTypeSearch .input-group-btn .btn {
+  height: 42px;
+  min-height: 42px;
+
+  padding-top: 0;
+  padding-bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+}
+#md_addElement .addElementTypeList {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	max-height: 390px;
+	overflow-y: auto;
+	padding: 2px;
+}
+
+#md_addElement .addElementTypeCard {
+	position: relative;
+	display: grid;
+	grid-template-columns: 42px 1fr;
+	grid-template-rows: auto auto;
+	column-gap: 10px;
+	align-items: center;
+	width: 100%;
+	min-height: 68px;
+	padding: 10px 12px;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	background: transparent;
+	text-align: left;
+	cursor: pointer;
+	transition:
+		border-color .12s ease,
+		background-color .12s ease,
+		box-shadow .12s ease;
+}
+
+#md_addElement .addElementTypeCard:hover,
+#md_addElement .addElementTypeCard:focus {
+	border-color: #aaa;
+	outline: none;
+}
+
+#md_addElement .addElementTypeCard.selected {
+	border-color: var(--link-color, #2980b9);
+	box-shadow: 0 0 0 1px var(--link-color, #2980b9);
+	background-color: rgba(41, 128, 185, .07);
+}
+
+#md_addElement .addElementTypeIcon {
+	grid-row: 1 / span 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	border-radius: 6px;
+	background: rgba(127, 127, 127, .12);
+	font-size: 17px;
+}
+
+#md_addElement .addElementTypeCard.selected .addElementTypeIcon {
+	background: rgba(41, 128, 185, .14);
+}
+
+#md_addElement .addElementTypeName {
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 18px;
+}
+
+#md_addElement .addElementTypeHint {
+	font-size: 11px;
+	opacity: .65;
+	line-height: 16px;
+}
+
+#md_addElement .addElementTypeDescriptionPanel {
+	margin-top: 15px;
+	padding: 12px 14px;
+	border-left: 3px solid var(--link-color, #2980b9);
+	border-radius: 4px;
+	background: var(--al-info-color);
+	color: #fff;
+}
+
+#md_addElement .addElementTypeDescriptionTitle {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	margin-bottom: 5px;
+	font-weight: 600;
+}
+
+#md_addElement .addElementTypeDescriptionText {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+#md_addElement .addElementTypeDescriptionText .addElementTypeDescription {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+}
+
+.addElementTypeCard:focus-visible {
+  outline: 2px solid var(--al-primary-color, #3498db);
+  outline-offset: 2px;
+}
+
+.addElementTypeCard {
+  position: relative;
+  overflow: hidden;
+}
+
+.addElementTypeCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  opacity: .85;
+  transition: opacity .15s ease;
+}
+
+.addElementTypeCard .addElementTypeIcon {
+  transition:
+    background-color .15s ease,
+    color .15s ease;
+}
+
+/* Si / Alors / Sinon */
+.addElementTypeCard[data-type="if"]::before {
+  background-color: var(--scBlocIF);
+}
+
+.addElementTypeCard[data-type="if"] .addElementTypeIcon {
+  color: var(--scBlocIF);
+  background-color: rgba(52, 152, 219, .12);
+}
+
+/* Action */
+.addElementTypeCard[data-type="action"]::before {
+  background-color: var(--scBlocACTION);
+}
+
+.addElementTypeCard[data-type="action"] .addElementTypeIcon {
+  color: var(--scBlocACTION);
+  background-color: rgba(127, 140, 141, .12);
+}
+
+/* Boucle */
+.addElementTypeCard[data-type="for"]::before {
+  background-color: var(--scBlocFOR);
+}
+
+.addElementTypeCard[data-type="for"] .addElementTypeIcon {
+  color: var(--scBlocFOR);
+  background-color: rgba(241, 196, 15, .12);
+}
+
+/* Tant que */
+.addElementTypeCard[data-type="while"]::before {
+  background-color: var(--scBlocWHILE);
+}
+
+.addElementTypeCard[data-type="while"] .addElementTypeIcon {
+  color: var(--scBlocWHILE);
+  background-color: rgba(155, 89, 182, .12);
+}
+
+/* Dans */
+.addElementTypeCard[data-type="in"]::before {
+  background-color: var(--scBlocIN);
+}
+
+.addElementTypeCard[data-type="in"] .addElementTypeIcon {
+  color: var(--scBlocIN);
+  background-color: rgba(46, 204, 113, .12);
+}
+
+/* A */
+.addElementTypeCard[data-type="at"]::before {
+  background-color: var(--scBlocAT);
+}
+
+.addElementTypeCard[data-type="at"] .addElementTypeIcon {
+  color: var(--scBlocAT);
+  background-color: rgba(93, 173, 226, .12);
+}
+
+/* Code */
+.addElementTypeCard[data-type="code"]::before {
+  background-color: var(--scBlocCODE);
+}
+
+.addElementTypeCard[data-type="code"] .addElementTypeIcon {
+  color: var(--scBlocCODE);
+  background-color: rgba(231, 76, 60, .12);
+}
+
+/* Commentaire */
+.addElementTypeCard[data-type="comment"]::before {
+  background-color: var(--scBlocCOM);
+}
+
+.addElementTypeCard[data-type="comment"] .addElementTypeIcon {
+  color: var(--scBlocCOM);
+  background-color: rgba(149, 165, 166, .12);
+}
+
+.addElementTypeCard:hover::before {
+  opacity: 1;
+}
+
+.addElementTypeCard.selected::before {
+  opacity: 1;
+}
+
+.addElementTypeCard.selected .addElementTypeIcon {
+  background-color: rgba(255, 255, 255, .08);
+}
+
+.addElementTypeCard:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, .85);
+  outline-offset: 1px;
+  z-index: 1;
+}
+
+@media (max-width: 600px) {
+	#md_addElement .addElementTypeList {
+		grid-template-columns: 1fr;
+		max-height: 330px;
+	}
+
+	#md_addElement .jeeDialogContent {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+}
