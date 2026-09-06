@@ -409,6 +409,7 @@ sendVarToJS([
                     <button type="button" class="addElementTypeCard selected" data-type="if" role="option"
                       aria-selected="true"
                     >
+                      <span class="addElementTypeShortcut">1</span>
                       <span class="addElementTypeIcon">
                         <i class="fas fa-code-branch"></i>
                       </span>
@@ -421,6 +422,7 @@ sendVarToJS([
                       </span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="action" role="option" aria-selected="false">
+                      <span class="addElementTypeShortcut">2</span>
                       <span class="addElementTypeIcon">
                         <i class="fas fa-play"></i>
                       </span>
@@ -432,6 +434,7 @@ sendVarToJS([
                       </span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="for" role="option" aria-selected="false">
+                      <span class="addElementTypeShortcut">3</span>
                       <span class="addElementTypeIcon">
                         <i class="fas fa-redo"></i>
                       </span>
@@ -444,6 +447,7 @@ sendVarToJS([
                       </span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="while" role="option" aria-selected="false">
+                      <span class="addElementTypeShortcut">4</span>
                       <span class="addElementTypeIcon">
                         <i class="fas fa-sync-alt"></i>
                       </span>
@@ -456,6 +460,7 @@ sendVarToJS([
                       </span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="in" role="option" aria-selected="false">
+                      <span class="addElementTypeShortcut">5</span>
                       <span class="addElementTypeIcon">
                         <i class="fas fa-hourglass-half"></i>
                       </span>
@@ -467,6 +472,7 @@ sendVarToJS([
                       </span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="at" role="option" aria-selected="false">
+                      <span class="addElementTypeShortcut">6</span>
                       <span class="addElementTypeIcon">
                         <i class="far fa-clock"></i>
                       </span>
@@ -478,6 +484,7 @@ sendVarToJS([
                       </span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="code" role="option" aria-selected="false">
+                      <span class="addElementTypeShortcut">7</span>
                       <span class="addElementTypeIcon">
                         <i class="fas fa-code"></i>
                       </span>
@@ -489,6 +496,7 @@ sendVarToJS([
                       </span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="comment" role="option" aria-selected="false">
+                      <span class="addElementTypeShortcut">8</span>
                       <span class="addElementTypeIcon">
                         <i class="far fa-comment-alt"></i>
                       </span>

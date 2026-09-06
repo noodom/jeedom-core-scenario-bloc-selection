@@ -1903,6 +1903,21 @@ select.addEventListener('change', function() {
 })
 
 document.addEventListener('keydown', function(event) {
+  if (!modal || modal.style.display == 'none' || modal.offsetParent === null) {
+    return
+  }
+
+  if (event.key >= '1' && event.key <= '8') {
+    var index = parseInt(event.key) - 1
+    var visibleCards = getVisibleAddElementTypeCards()
+    if (visibleCards[index]) {
+      event.preventDefault()
+      selectAddElementType(visibleCards[index].getAttribute('data-type'))
+      validateAddElementType()
+    }
+    return
+  }
+
   if (event.key != 'Escape') {
     return
   }
