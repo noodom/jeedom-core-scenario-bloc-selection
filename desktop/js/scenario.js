@@ -1530,7 +1530,7 @@ document.registerEvent('keydown', function(event) {
 
   if ((event.ctrlKey || event.metaKey) && event.altKey && event.which == 65) { //a
     event.preventDefault()
-    var btAddScenarioElement = document.getElementById('bt_addScenarioElement')
+    const btAddScenarioElement = document.getElementById('bt_addScenarioElement')
     if (btAddScenarioElement && btAddScenarioElement.isVisible()) {
       btAddScenarioElement.click()
       return
@@ -1682,10 +1682,10 @@ document.querySelector('.scenarioAttr[data-l2key="timeline::enable"]').addEventL
   }
 })
 
-var select = document.getElementById('in_addElementType')
-var cards = document.querySelectorAll('#addElementTypeList .addElementTypeCard')
-var selectedName = document.getElementById('addElementTypeSelectedName')
-var modal = document.getElementById('md_addElement')
+const select = document.getElementById('in_addElementType')
+const cards = document.querySelectorAll('#addElementTypeList .addElementTypeCard')
+const selectedName = document.getElementById('addElementTypeSelectedName')
+const modal = document.getElementById('md_addElement')
 
 function validateAddElementType() {
   document.getElementById('bt_addElementSave').click()
@@ -1693,26 +1693,27 @@ function validateAddElementType() {
 
 function updateAddElementTypeDescription(type) {
   document.querySelectorAll('.addElementTypeDescription').unseen()
-  var description = document.querySelector('.addElementTypeDescription.' + type)
+
+  const description = document.querySelector('.addElementTypeDescription.' + type)
   if (description) {
     description.seen()
   }
 
-  var option = select.querySelector('option[value="' + type + '"]')
+  const option = select.querySelector('option[value="' + type + '"]')
   if (option && selectedName) {
     selectedName.textContent = option.textContent
   }
 }
 
 function selectAddElementType(type, focusCard = false) {
-  var option = select.querySelector('option[value="' + type + '"]')
+  const option = select.querySelector('option[value="' + type + '"]')
   if (!option) {
     return
   }
 
   select.value = type
   cards.forEach(function(card) {
-    var isSelected = card.getAttribute('data-type') == type
+    const isSelected = card.getAttribute('data-type') == type
     card.classList.toggle('selected', isSelected)
     card.setAttribute('aria-selected', isSelected ? 'true' : 'false')
     if (isSelected && focusCard) {
@@ -1730,7 +1731,7 @@ function getVisibleAddElementTypeCards() {
 }
 
 function getFirstVisibleAddElementTypeCard() {
-  var visibleCards = getVisibleAddElementTypeCards()
+  const visibleCards = getVisibleAddElementTypeCards()
   return visibleCards.length ? visibleCards[0] : null
 }
 
@@ -1739,13 +1740,13 @@ function focusAndSelectAddElementTypeCard(card) {
     return
   }
 
-  var type = card.getAttribute('data-type')
+  const type = card.getAttribute('data-type')
   selectAddElementType(type)
   card.focus({ preventScroll: true })
 }
 
 function getAddElementTypeCardCenter(card) {
-  var rect = card.getBoundingClientRect()
+  const rect = card.getBoundingClientRect()
 
   return {
     x: rect.left + rect.width / 2,
@@ -1754,16 +1755,16 @@ function getAddElementTypeCardCenter(card) {
 }
 
 function navigateAddElementTypeHorizontal(currentCard, direction) {
-  var visibleCards = getVisibleAddElementTypeCards()
-  var currentCenter = getAddElementTypeCardCenter(currentCard)
-  var candidates = []
+  const visibleCards = getVisibleAddElementTypeCards()
+  const currentCenter = getAddElementTypeCardCenter(currentCard)
+  const candidates = []
 
   visibleCards.forEach(function(card) {
     if (card == currentCard) {
       return
     }
 
-    var center = getAddElementTypeCardCenter(card)
+    const center = getAddElementTypeCardCenter(card)
     if (direction == 'left' && center.x >= currentCenter.x) {
       return
     }
@@ -1785,25 +1786,25 @@ function navigateAddElementTypeHorizontal(currentCard, direction) {
 
   candidates.sort(function(a, b) {
     if (a.verticalDistance != b.verticalDistance) {
-      return (a.verticalDistance - b.verticalDistance)
+      return a.verticalDistance - b.verticalDistance
     }
 
-    return (a.horizontalDistance - b.horizontalDistance)
+    return a.horizontalDistance - b.horizontalDistance
   })
 
   activateAddElementTypeCard(candidates[0].card)
 }
 
 function navigateAddElementTypeVertical(currentCard, direction) {
-  var visibleCards = getVisibleAddElementTypeCards()
-  var currentCenter = getAddElementTypeCardCenter(currentCard)
-  var candidates = []
+  const visibleCards = getVisibleAddElementTypeCards()
+  const currentCenter = getAddElementTypeCardCenter(currentCard)
+  const candidates = []
   visibleCards.forEach(function(card) {
     if (card == currentCard) {
       return
     }
 
-    var center = getAddElementTypeCardCenter(card)
+    const center = getAddElementTypeCardCenter(card)
     if (direction == 'up' && center.y >= currentCenter.y) {
       return
     }
@@ -1825,10 +1826,10 @@ function navigateAddElementTypeVertical(currentCard, direction) {
 
   candidates.sort(function(a, b) {
     if (a.horizontalDistance != b.horizontalDistance) {
-      return (a.horizontalDistance - b.horizontalDistance)
+      return a.horizontalDistance - b.horizontalDistance
     }
 
-    return (a.verticalDistance - b.verticalDistance)
+    return a.verticalDistance - b.verticalDistance
   })
 
   activateAddElementTypeCard(candidates[0].card)
@@ -1839,7 +1840,7 @@ function activateAddElementTypeCard(card, focusCard = true) {
     return
   }
 
-  var type = card.getAttribute('data-type')
+  const type = card.getAttribute('data-type')
   selectAddElementType(type)
 
   if (focusCard) {
@@ -1906,8 +1907,8 @@ document.addEventListener('keydown', function(event) {
   }
 
   if (event.key >= '1' && event.key <= '8') {
-    var index = parseInt(event.key) - 1
-    var visibleCards = getVisibleAddElementTypeCards()
+    const index = parseInt(event.key) - 1
+    const visibleCards = getVisibleAddElementTypeCards()
     if (visibleCards[index]) {
       event.preventDefault()
       selectAddElementType(visibleCards[index].getAttribute('data-type'))
@@ -1927,21 +1928,21 @@ document.addEventListener('keydown', function(event) {
   event.preventDefault()
   event.stopPropagation()
 
-  var closeButton = document.getElementById('bt_crossElementSave')
+  const closeButton = document.getElementById('bt_crossElementSave')
   if (closeButton) {
     closeButton.click()
   }
 })
 
 function focusFirstAddElementTypeCard() {
-  var firstVisibleCard = getFirstVisibleAddElementTypeCard()
+  const firstVisibleCard = getFirstVisibleAddElementTypeCard()
   if (!firstVisibleCard) {
     return
   }
 
   activateAddElementTypeCard(firstVisibleCard)
 }
-var btAddScenarioElement = document.getElementById( 'bt_addScenarioElement')
+const btAddScenarioElement = document.getElementById('bt_addScenarioElement')
 if (btAddScenarioElement) {
   btAddScenarioElement.addEventListener(
     'click',
@@ -1955,26 +1956,26 @@ if (btAddScenarioElement) {
 }
 
 if (modal) {
-  var focusObserver = new MutationObserver(function() {
-      var isVisible = modal.style.display != 'none' && modal.offsetParent !== null
-      if (!isVisible) {
-        return
-      }
-      var activeElement = document.activeElement
-      var focusIsOnCard = activeElement && activeElement.classList.contains('addElementTypeCard')
+  const focusObserver = new MutationObserver(function() {
+    const isVisible = modal.style.display != 'none' && modal.offsetParent !== null
+    if (!isVisible) {
+      return
+    }
+    const activeElement = document.activeElement
+    const focusIsOnCard = activeElement && activeElement.classList.contains('addElementTypeCard')
 
-      if (!focusIsOnCard) {
-        requestAnimationFrame(function() {
-          focusFirstAddElementTypeCard()
-        })
-      }
-    })
+    if (!focusIsOnCard) {
+      requestAnimationFrame(function() {
+        focusFirstAddElementTypeCard()
+      })
+    }
+  })
 
   focusObserver.observe(
     modal,
     {
       attributes: true,
-      attributeFilter: [ 'style', 'class' ]
+      attributeFilter: ['style', 'class']
     }
   )
 }
