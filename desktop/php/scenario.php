@@ -404,22 +404,6 @@ sendVarToJS([
                     <option value="comment">{{Commentaire}}</option>
                   </select>
 
-                  <!-- Recherche -->
-                  <div
-                    class="addElementTypeSearch">
-                    <div class="input-group">
-                      <span class="input-group-addon">
-                        <i class="fas fa-search"></i>
-                      </span>
-                      <input id="in_addElementTypeFilter" type="search" class="form-control" placeholder="{{Rechercher un type de bloc}}" autocomplete="off" aria-label="{{Rechercher un type de bloc}}">
-                      <span class="input-group-btn">
-                        <button type="button" id="bt_resetAddElementTypeFilter" class="btn btn-default" title="{{Effacer la recherche}}" style="display:none;">
-                          <i class="fas fa-times"></i>
-                        </button>
-                      </span>
-                    </div>
-                  </div>
-
                   <!-- Types de blocs -->
                   <div id="addElementTypeList" class="addElementTypeList" role="listbox" aria-label="{{Types de blocs}}">
                     <button type="button" class="addElementTypeCard selected" data-type="if" role="option"
@@ -516,14 +500,6 @@ sendVarToJS([
                       </span>
                     </button>
 
-                  </div>
-                  <div id="addElementTypeNoResult" class="center" style="display:none;padding:25px 10px;">
-                    <i
-                      class="fas fa-search"
-                      style="font-size:1.5em;opacity:.5;"
-                    ></i>
-                    <br>
-                    <span>{{Aucun bloc correspondant}}</span>
                   </div>
                   <!-- Description -->
                   <div class="addElementTypeDescriptionPanel">

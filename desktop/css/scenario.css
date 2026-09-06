@@ -2,66 +2,6 @@
 	padding: 15px 20px 10px;
 }
 
-.addElementTypeSearch {
-  margin-bottom: 15px;
-}
-
-.addElementTypeSearch .input-group {
-  display: flex;
-  align-items: stretch;
-  height: 42px;
-}
-
-/*
- * Loupe
- */
-.addElementTypeSearch .input-group-addon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 52px;
-  min-width: 52px;
-  height: 42px;
-
-  padding: 0;
-  line-height: 1;
-
-  box-sizing: border-box;
-}
-
-/*
- * Champ de recherche
- */
-.addElementTypeSearch input.form-control {
-  height: 42px !important;
-  min-height: 42px;
-
-  padding-top: 0;
-  padding-bottom: 0;
-
-  box-sizing: border-box;
-
-  line-height: 42px;
-}
-
-.addElementTypeSearch .input-group-btn {
-  height: 42px;
-}
-
-.addElementTypeSearch .input-group-btn .btn {
-  height: 42px;
-  min-height: 42px;
-
-  padding-top: 0;
-  padding-bottom: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  box-sizing: border-box;
-}
 #md_addElement .addElementTypeList {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));

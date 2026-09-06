@@ -1527,6 +1527,15 @@ document.registerEvent('keydown', function(event) {
     jeeP.PREV_FOCUS = null
     return
   }
+
+  if ((event.ctrlKey || event.metaKey) && event.altKey && event.which == 65) { //a
+    event.preventDefault()
+    var btAddScenarioElement = document.getElementById('bt_addScenarioElement')
+    if (btAddScenarioElement && btAddScenarioElement.isVisible()) {
+      btAddScenarioElement.click()
+      return
+    }
+  }
 })
 
 //Manage events outside parents delegations:
@@ -1674,13 +1683,9 @@ document.querySelector('.scenarioAttr[data-l2key="timeline::enable"]').addEventL
 })
 
 var select = document.getElementById('in_addElementType')
-var input = document.getElementById('in_addElementTypeFilter')
 var cards = document.querySelectorAll('#addElementTypeList .addElementTypeCard')
-var resetFilter = document.getElementById('bt_resetAddElementTypeFilter')
-var noResult = document.getElementById('addElementTypeTypeNoResult')
 var selectedName = document.getElementById('addElementTypeSelectedName')
 var modal = document.getElementById('md_addElement')
-var allOptions = Array.from(select.options)
 
 function validateAddElementType() {
   document.getElementById('bt_addElementSave').click()
@@ -1829,47 +1834,6 @@ function navigateAddElementTypeVertical(currentCard, direction) {
   activateAddElementTypeCard(candidates[0].card)
 }
 
-function filterAddElementTypes() {
-  var text = input.value.trim().toLowerCase().stripAccents()
-  var visibleCount = 0
-  cards.forEach(function(card) {
-    var type = card.getAttribute('data-type')
-    var option = allOptions.find(function(item) {
-        return item.value == type
-      })
-
-    if (!option) {
-      return
-    }
-
-    var name = option.textContent .toLowerCase() .stripAccents()
-    var description = document.querySelector('.addElementTypeDescription.' + type)?.textContent.toLowerCase().stripAccents() || ''
-    var match = text == '' || name.includes(text) || description.includes(text) || type.includes(text)
-    card.style.display = match ? '' : 'none'
-
-    if (match) {
-      visibleCount++
-    }
-  })
-
-  if (resetFilter) {
-    resetFilter.style.display = text == '' ? 'none' : ''
-  }
-
-  if (noResult) {
-    noResult.style.display = visibleCount == 0 ? '' : 'none'
-  }
-
-  var activeElement = document.activeElement
-
-  if (activeElement && activeElement.classList.contains('addElementTypeCard') && activeElement.style.display == 'none') {
-    var firstVisibleCard = getFirstVisibleAddElementTypeCard()
-    if (firstVisibleCard) {
-      focusAndSelectAddElementTypeCard(firstVisibleCard)
-    }
-  }
-}
-
 function activateAddElementTypeCard(card, focusCard = true) {
   if (!card) {
     return
@@ -1934,38 +1898,6 @@ cards.forEach(function(card) {
   })
 })
 
-input.addEventListener('input', function() {
-  filterAddElementTypes()
-})
-
-input.addEventListener('keydown', function(event) {
-  if (event.key != 'Enter') {
-    return
-  }
-  event.preventDefault()
-  var visibleCard = getFirstVisibleAddElementTypeCard()
-  if (!visibleCard) {
-    return
-  }
-
-  selectAddElementType(visibleCard.getAttribute('data-type'))
-  validateAddElementType()
-})
-
-if (resetFilter) {
-  resetFilter.addEventListener(
-    'click',
-    function() {
-      input.value = ''
-      filterAddElementTypes()
-      var firstVisibleCard = getFirstVisibleAddElementTypeCard()
-      if (firstVisibleCard) {
-        focusAndSelectAddElementTypeCard(firstVisibleCard)
-      }
-    }
-  )
-}
-
 select.addEventListener('change', function() {
   selectAddElementType(this.value)
 })
@@ -2001,9 +1933,7 @@ if (btAddScenarioElement) {
   btAddScenarioElement.addEventListener(
     'click',
     function() {
-      input.value = ''
-      filterAddElementTypes()
-
+      selectAddElementType(select.value || 'if')
       setTimeout(function() { focusFirstAddElementTypeCard() }, 0)
       setTimeout(function() { focusFirstAddElementTypeCard() }, 100)
       setTimeout(function() { focusFirstAddElementTypeCard() }, 250)
@@ -2038,13 +1968,6 @@ if (modal) {
     }
   )
 }
-
-document.getElementById('bt_addScenarioElement').addEventListener('click', function() {
-  input.value = ''
-  filterAddElementTypes()
-  selectAddElementType(select.value || 'if')
-  setTimeout(function() { input.focus() }, 100)
-})
 
 document.getElementById('in_searchInsideScenario').addEventListener('keyup', function(event) {
   var search = this.value
@@ -2389,8 +2312,6 @@ document.getElementById('div_editScenario').querySelector('div.floatingbar').add
         jeeP.addElementSave.elementDiv = document.getElementById('div_scenarioElement')
       }
     }
-    input.value = ''
-    input.triggerEvent('input')
     jeeDialog.modal(document.getElementById('md_addElement'))._jeeDialog.show() //=> #bt_addElementSave
     return
   }
@@ -2621,7 +2542,7 @@ document.getElementById('scenariotab').addEventListener('click', function(event)
 
   if (_target = event.target.closest('input:not([type="checkbox"]).expressionAttr, textarea.expressionAttr')) { //ctrl-click input popup
     jeeP.PREV_FOCUS = _target //Place new block next
-    if (event.ctrlKey) {
+    if (event.ctrlKey || event.metaKey) {
       var selfInput = _target
       jeeDialog.prompt({
         title: '{{Edition}}',
