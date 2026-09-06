@@ -14,6 +14,8 @@ Ce projet apporte plusieurs améliorations ergonomiques à la modale de sélecti
 
 Ancienne modale de sélection de bloc de scénario
 
+<img width="615" height="313" alt="image" src="https://github.com/user-attachments/assets/4dfbad2a-89ee-4e71-9489-c310a16ad422" />
+
 ## Nouvelle version proposée par ce patch
 
 <img width="783" height="711" alt="image" src="https://github.com/user-attachments/assets/49cb9f3e-f2c8-4c10-a02b-640bf0d1aee5" />
