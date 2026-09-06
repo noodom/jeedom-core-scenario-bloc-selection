@@ -12,6 +12,13 @@ Ce projet apporte plusieurs améliorations ergonomiques à la modale de sélecti
     *   Effectuez toujours une sauvegarde de Jeedom avant l'installation.
     *   Testez sur un environnement hors production si possible.
 
+Ancienne modale de sélection de bloc de scénario
+
+## Nouvelle version proposée par ce patch
+
+<img width="783" height="711" alt="image" src="https://github.com/user-attachments/assets/49cb9f3e-f2c8-4c10-a02b-640bf0d1aee5" />
+
+
 ## Améliorations apportées
 
 ### 1. Raccourci d'ouverture de la modale
