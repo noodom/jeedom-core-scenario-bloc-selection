@@ -369,31 +369,12 @@ sendVarToJS([
             <div role="tabpanel" class="tab-pane" id="scenariotab">
               <div id="div_scenarioElement" class="element"></div>
 
-              <div
-                id="md_addElement"
-                class="jeeDialog jeeDialogPrompt jeeDialogNoCloseBackdrop"
-                style="display:none;"
-              >
+              <div id="md_addElement" class="jeeDialog jeeDialogPrompt jeeDialogNoCloseBackdrop" style="display:none;">
                 <div class="jeeDialogTitle">
-                  <span class="title">
-                    <i class="fas fa-plus-circle"></i> {{Ajouter un bloc}}
-                  </span>
-
-                  <button
-                    class="btClose"
-                    id="bt_crossElementSave"
-                    type="button"
-                  ></button>
+                  <span class="title"><i class="fas fa-plus-circle"></i> {{Ajouter un bloc}}</span><button class="btClose" id="bt_crossElementSave" type="button"></button>
                 </div>
-
                 <div class="jeeDialogContent">
-
-                  <!-- Valeur conservée pour compatibilité avec le code existant -->
-                  <select
-                    id="in_addElementType"
-                    style="display:none;"
-                    aria-hidden="true"
-                  >
+                  <select id="in_addElementType" style="display:none;" aria-hidden="true">
                     <option value="if">{{Si/Alors/Sinon}}</option>
                     <option value="action">{{Action}}</option>
                     <option value="for">{{Boucle}}</option>
@@ -403,111 +384,56 @@ sendVarToJS([
                     <option value="code">{{Code}}</option>
                     <option value="comment">{{Commentaire}}</option>
                   </select>
-
                   <!-- Types de blocs -->
                   <div id="addElementTypeList" class="addElementTypeList" role="listbox" aria-label="{{Types de blocs}}">
-                    <button type="button" class="addElementTypeCard selected" data-type="if" role="option"
-                      aria-selected="true"
-                    >
+                    <button type="button" class="addElementTypeCard selected" data-type="if" role="option" aria-selected="true">
                       <span class="addElementTypeShortcut">1</span>
-                      <span class="addElementTypeIcon">
-                        <i class="fas fa-code-branch"></i>
-                      </span>
-
-                      <span class="addElementTypeName">
-                        {{Si/Alors/Sinon}}
-                      </span>
-                      <span class="addElementTypeHint">
-                        {{Condition}}
-                      </span>
+                      <span class="addElementTypeIcon"><i class="fas fa-code-branch"></i></span>
+                      <span class="addElementTypeName">{{Si/Alors/Sinon}}</span>
+                      <span class="addElementTypeHint">{{Condition}}</span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="action" role="option" aria-selected="false">
                       <span class="addElementTypeShortcut">2</span>
-                      <span class="addElementTypeIcon">
-                        <i class="fas fa-play"></i>
-                      </span>
-                      <span class="addElementTypeName">
-                        {{Action}}
-                      </span>
-                      <span class="addElementTypeHint">
-                        {{Exécuter une action}}
-                      </span>
+                      <span class="addElementTypeIcon"><i class="fas fa-play"></i></span>
+                      <span class="addElementTypeName">{{Action}}</span>
+                      <span class="addElementTypeHint">{{Exécuter une action}}</span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="for" role="option" aria-selected="false">
                       <span class="addElementTypeShortcut">3</span>
-                      <span class="addElementTypeIcon">
-                        <i class="fas fa-redo"></i>
-                      </span>
-                      <span class="addElementTypeName">
-                        {{Boucle}}
-                      </span>
-
-                      <span class="addElementTypeHint">
-                        {{Répéter X fois}}
-                      </span>
+                      <span class="addElementTypeIcon"><i class="fas fa-redo"></i></span>
+                      <span class="addElementTypeName">{{Boucle}}</span>
+                      <span class="addElementTypeHint">{{Répéter X fois}}</span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="while" role="option" aria-selected="false">
                       <span class="addElementTypeShortcut">4</span>
-                      <span class="addElementTypeIcon">
-                        <i class="fas fa-sync-alt"></i>
-                      </span>
-                      <span class="addElementTypeName">
-                        {{Tant que}}
-                      </span>
-
-                      <span class="addElementTypeHint">
-                        {{Répéter sous condition}}
-                      </span>
+                      <span class="addElementTypeIcon"><i class="fas fa-sync-alt"></i></span>
+                      <span class="addElementTypeName">{{Tant que}}</span>
+                      <span class="addElementTypeHint">{{Répéter sous condition}}</span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="in" role="option" aria-selected="false">
                       <span class="addElementTypeShortcut">5</span>
-                      <span class="addElementTypeIcon">
-                        <i class="fas fa-hourglass-half"></i>
-                      </span>
-                      <span class="addElementTypeName">
-                        {{Dans}}
-                      </span>
-                      <span class="addElementTypeHint">
-                        {{Après un délai}}
-                      </span>
+                      <span class="addElementTypeIcon"><i class="fas fa-hourglass-half"></i></span>
+                      <span class="addElementTypeName">{{Dans}}</span>
+                      <span class="addElementTypeHint">{{Après un délai}}</span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="at" role="option" aria-selected="false">
                       <span class="addElementTypeShortcut">6</span>
-                      <span class="addElementTypeIcon">
-                        <i class="far fa-clock"></i>
-                      </span>
-                      <span class="addElementTypeName">
-                        {{A}}
-                      </span>
-                      <span class="addElementTypeHint">
-                        {{À une heure précise}}
-                      </span>
+                      <span class="addElementTypeIcon"><i class="far fa-clock"></i></span>
+                      <span class="addElementTypeName">{{A}}</span>
+                      <span class="addElementTypeHint">{{À une heure précise}}</span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="code" role="option" aria-selected="false">
                       <span class="addElementTypeShortcut">7</span>
-                      <span class="addElementTypeIcon">
-                        <i class="fas fa-code"></i>
-                      </span>
-                      <span class="addElementTypeName">
-                        {{Code}}
-                      </span>
-                      <span class="addElementTypeHint">
-                        {{PHP, shell, etc.}}
-                      </span>
+                      <span class="addElementTypeIcon"><i class="fas fa-code"></i></span>
+                      <span class="addElementTypeName">{{Code}}</span>
+                      <span class="addElementTypeHint">{{PHP, shell, etc.}}</span>
                     </button>
                     <button type="button" class="addElementTypeCard" data-type="comment" role="option" aria-selected="false">
                       <span class="addElementTypeShortcut">8</span>
-                      <span class="addElementTypeIcon">
-                        <i class="far fa-comment-alt"></i>
-                      </span>
-                      <span class="addElementTypeName">
-                        {{Commentaire}}
-                      </span>
-                      <span class="addElementTypeHint">
-                        {{Commenter le scénario}}
-                      </span>
+                      <span class="addElementTypeIcon"><i class="far fa-comment-alt"></i></span>
+                      <span class="addElementTypeName">{{Commentaire}}</span>
+                      <span class="addElementTypeHint">{{Commenter le scénario}}</span>
                     </button>
-
                   </div>
                   <!-- Description -->
                   <div class="addElementTypeDescriptionPanel">
@@ -546,14 +472,8 @@ sendVarToJS([
                   </div>
                 </div>
                 <div class="jeeDialogFooter">
-                  <button type="button" data-type="cancel" class="button warning" id="bt_cancelElementSave">
-                    <i class="fas fa-minus-circle"></i>
-                    {{Annuler}}
-                  </button>
-                  <button type="button" data-type="confirm" class="button success" id="bt_addElementSave">
-                    <i class="fas fa-check-circle"></i>
-                    {{Ajouter}}
-                  </button>
+                  <button type="button" data-type="cancel" class="button warning" id="bt_cancelElementSave"><i class="fas fa-minus-circle"></i>{{Annuler}}</button>
+                  <button type="button" data-type="confirm" class="button success" id="bt_addElementSave"><i class="fas fa-check-circle"></i>{{Ajouter}}</button>
                 </div>
               </div>
             </div>

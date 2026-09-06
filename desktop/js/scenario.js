@@ -1867,21 +1867,19 @@ cards.forEach(function(card) {
 
     if (event.key == ' ') {
       event.preventDefault()
-      selectAddElementType(
-        this.getAttribute('data-type')
-      )
+      selectAddElementType(this.getAttribute('data-type'))
       return
     }
 
     if (event.key == 'ArrowLeft') {
       event.preventDefault()
-      navigateAddElementTypeHorizontal( this, 'left')
+      navigateAddElementTypeHorizontal(this, 'left')
       return
     }
 
     if (event.key == 'ArrowRight') {
       event.preventDefault()
-      navigateAddElementTypeHorizontal( this, 'right')
+      navigateAddElementTypeHorizontal(this, 'right')
       return
     }
 
@@ -1976,10 +1974,7 @@ if (modal) {
     modal,
     {
       attributes: true,
-      attributeFilter: [
-        'style',
-        'class'
-      ]
+      attributeFilter: [ 'style', 'class' ]
     }
   )
 }

@@ -2,13 +2,23 @@
 
 Ce projet apporte plusieurs améliorations ergonomiques à la modale de sélection des blocs dans l'édition des scénarios Jeedom.
 
+⚠️ **AVERTISSEMENT : Ce projet n'est pas un plugin officiel. Il modifie directement des fichiers du Core Jeedom.**
+
+## Sécurité et Risques
+
+*   **Modification du Core** : Ce projet remplace des fichiers système de Jeedom. Bien qu'un mécanisme de sauvegarde soit intégré, cela ne remplace pas une sauvegarde complète de votre système.
+*   **Mises à jour Jeedom** : Une mise à jour de Jeedom pourra écraser ces modifications. Il sera peut-être nécessaire de réappliquer le patch après une mise à jour.
+*   **Recommandations** : 
+    *   Effectuez toujours une sauvegarde de Jeedom avant l'installation.
+    *   Testez sur un environnement hors production si possible.
+
 ## Améliorations apportées
 
 ### 1. Raccourci d'ouverture de la modale
-Il est désormais possible d'ouvrir la modale d'ajout de bloc instantanément avec le raccourci clavier **Ctrl + Alt + A** (ou **Cmd + Opt + A** sur macOS).
+Ouvrez la modale d'ajout de bloc instantanément avec **Ctrl + Alt + A** (ou **Cmd + Opt + A** sur macOS).
 
 ### 2. Raccourcis Clavier Numériques
-Chaque type de bloc dispose d'un raccourci clavier direct (de **1** à **8**). Lorsqu'une modale d'ajout de bloc est ouverte, il suffit de presser le chiffre correspondant pour insérer immédiatement le bloc souhaité.
+Chaque type de bloc dispose d'un raccourci clavier direct (**1** à **8**). Pressez le chiffre correspondant pour insérer immédiatement le bloc.
 
 *   **1** : Si/Alors/Sinon
 *   **2** : Action
@@ -20,12 +30,41 @@ Chaque type de bloc dispose d'un raccourci clavier direct (de **1** à **8**). L
 *   **8** : Commentaire
 
 ### 3. Interface Simplifiée
-Le filtre de recherche textuelle, présent auparavant, a été supprimé. La sélection se limitant à 8 types de blocs, ce filtre alourdissait l'interface sans apporter de gain réel face à la rapidité des nouveaux raccourcis numériques.
+Le filtre de recherche textuelle présent auparavant a été supprimé. Devenu inutile face à la rapidité des raccourcis numériques pour les 8 types de blocs, sa suppression épure l'interface.
 
 ### 4. Navigation au Clavier Optimisée
-*   **Flèches directionnelles** : Navigation fluide entre les cartes de blocs.
-*   **Entrée** : Validation du bloc sélectionné.
-*   **Echap** : Fermeture de la modale.
+*   **Flèches directionnelles** : Navigation entre les cartes de blocs.
+*   **Entrée** : Validation.
+*   **Echap** : Fermeture.
 
-## Installation
-Remplacez les fichiers `scenario.php`, `scenario.js` et `scenario.css` dans le répertoire `desktop` de votre installation Jeedom par ceux fournis dans ce dépôt.
+## Installation / Désinstallation
+
+L'installation et la désinstallation s'effectuent via un bloc **Code** dans un scénario Jeedom.
+
+### Installation
+
+Script : [`corePatchInstallation/scenarioBlocSelectionPatchInstall.php`](./corePatchInstallation/scenarioBlocSelectionPatchInstall.php)
+
+Copiez son contenu dans un bloc **Code** puis exécutez le scénario.
+
+Les fichiers originaux sont automatiquement sauvegardés en `.bak` avant leur modification.
+
+### Désinstallation
+
+Script : [`corePatchInstallation/scenarioBlocSelectionPatchUninstall.php`](./corePatchInstallation/scenarioBlocSelectionPatchUninstall.php)
+
+Copiez son contenu dans un bloc **Code** puis exécutez le scénario.
+
+Les fichiers originaux sont restaurés et les fichiers du patch sont supprimés.
+
+## Fichiers modifiés
+
+```text
+desktop/php/scenario.php
+desktop/js/scenario.js
+desktop/css/scenario.css
+
+Les sauvegardes des fichiers Core sont conservées sous :
+
+desktop/php/scenario.php.bak
+desktop/js/scenario.js.bak
