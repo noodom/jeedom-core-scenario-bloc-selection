@@ -1682,10 +1682,10 @@ document.querySelector('.scenarioAttr[data-l2key="timeline::enable"]').addEventL
   }
 })
 
-const select = document.getElementById('in_addElementType')
-const cards = document.querySelectorAll('#addElementTypeList .addElementTypeCard')
-const selectedName = document.getElementById('addElementTypeSelectedName')
-const modal = document.getElementById('md_addElement')
+var select = document.getElementById('in_addElementType')
+var cards = document.querySelectorAll('#addElementTypeList .addElementTypeCard')
+var selectedName = document.getElementById('addElementTypeSelectedName')
+var modal = document.getElementById('md_addElement')
 
 function validateAddElementType() {
   document.getElementById('bt_addElementSave').click()
