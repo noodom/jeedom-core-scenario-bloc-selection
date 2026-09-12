@@ -1942,7 +1942,7 @@ function focusFirstAddElementTypeCard() {
 
   activateAddElementTypeCard(firstVisibleCard)
 }
-const btAddScenarioElement = document.getElementById('bt_addScenarioElement')
+var btAddScenarioElement = document.getElementById('bt_addScenarioElement')
 if (btAddScenarioElement) {
   btAddScenarioElement.addEventListener(
     'click',
