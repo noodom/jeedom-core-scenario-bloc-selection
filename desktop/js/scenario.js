@@ -1682,352 +1682,354 @@ document.querySelector('.scenarioAttr[data-l2key="timeline::enable"]').addEventL
   }
 })
 
-var select = document.getElementById('in_addElementType')
-var cards = document.querySelectorAll('#addElementTypeList .addElementTypeCard')
-var selectedName = document.getElementById('addElementTypeSelectedName')
-var modal = document.getElementById('md_addElement')
+;(function() {
+  const select = document.getElementById('in_addElementType')
+  const cards = document.querySelectorAll('#addElementTypeList .addElementTypeCard')
+  const selectedName = document.getElementById('addElementTypeSelectedName')
+  const modal = document.getElementById('md_addElement')
 
-function validateAddElementType() {
-  document.getElementById('bt_addElementSave').click()
-}
-
-function updateAddElementTypeDescription(type) {
-  document.querySelectorAll('.addElementTypeDescription').unseen()
-
-  const description = document.querySelector('.addElementTypeDescription.' + type)
-  if (description) {
-    description.seen()
+  function validateAddElementType() {
+    document.getElementById('bt_addElementSave').click()
   }
 
-  const option = select.querySelector('option[value="' + type + '"]')
-  if (option && selectedName) {
-    selectedName.textContent = option.textContent
-  }
-}
+  function updateAddElementTypeDescription(type) {
+    document.querySelectorAll('.addElementTypeDescription').unseen()
 
-function selectAddElementType(type, focusCard = false) {
-  const option = select.querySelector('option[value="' + type + '"]')
-  if (!option) {
-    return
-  }
-
-  select.value = type
-  cards.forEach(function(card) {
-    const isSelected = card.getAttribute('data-type') == type
-    card.classList.toggle('selected', isSelected)
-    card.setAttribute('aria-selected', isSelected ? 'true' : 'false')
-    if (isSelected && focusCard) {
-      card.focus({ preventScroll: true })
+    const description = document.querySelector('.addElementTypeDescription.' + type)
+    if (description) {
+      description.seen()
     }
-  })
 
-  updateAddElementTypeDescription(type)
-}
-
-function getVisibleAddElementTypeCards() {
-  return Array.from(cards).filter(function(card) {
-    return card.style.display != 'none'
-  })
-}
-
-function getFirstVisibleAddElementTypeCard() {
-  const visibleCards = getVisibleAddElementTypeCards()
-  return visibleCards.length ? visibleCards[0] : null
-}
-
-function focusAndSelectAddElementTypeCard(card) {
-  if (!card) {
-    return
+    const option = select.querySelector('option[value="' + type + '"]')
+    if (option && selectedName) {
+      selectedName.textContent = option.textContent
+    }
   }
 
-  const type = card.getAttribute('data-type')
-  selectAddElementType(type)
-  card.focus({ preventScroll: true })
-}
-
-function getAddElementTypeCardCenter(card) {
-  const rect = card.getBoundingClientRect()
-
-  return {
-    x: rect.left + rect.width / 2,
-    y: rect.top + rect.height / 2
-  }
-}
-
-function navigateAddElementTypeHorizontal(currentCard, direction) {
-  const visibleCards = getVisibleAddElementTypeCards()
-  const currentCenter = getAddElementTypeCardCenter(currentCard)
-  const candidates = []
-
-  visibleCards.forEach(function(card) {
-    if (card == currentCard) {
+  function selectAddElementType(type, focusCard = false) {
+    const option = select.querySelector('option[value="' + type + '"]')
+    if (!option) {
       return
     }
 
-    const center = getAddElementTypeCardCenter(card)
-    if (direction == 'left' && center.x >= currentCenter.x) {
-      return
-    }
-
-    if (direction == 'right' && center.x <= currentCenter.x) {
-      return
-    }
-
-    candidates.push({
-      card: card,
-      verticalDistance: Math.abs(center.y - currentCenter.y),
-      horizontalDistance: Math.abs(center.x - currentCenter.x)
+    select.value = type
+    cards.forEach(function(card) {
+      const isSelected = card.getAttribute('data-type') == type
+      card.classList.toggle('selected', isSelected)
+      card.setAttribute('aria-selected', isSelected ? 'true' : 'false')
+      if (isSelected && focusCard) {
+        card.focus({ preventScroll: true })
+      }
     })
-  })
 
-  if (!candidates.length) {
-    return
+    updateAddElementTypeDescription(type)
   }
 
-  candidates.sort(function(a, b) {
-    if (a.verticalDistance != b.verticalDistance) {
-      return a.verticalDistance - b.verticalDistance
-    }
-
-    return a.horizontalDistance - b.horizontalDistance
-  })
-
-  activateAddElementTypeCard(candidates[0].card)
-}
-
-function navigateAddElementTypeVertical(currentCard, direction) {
-  const visibleCards = getVisibleAddElementTypeCards()
-  const currentCenter = getAddElementTypeCardCenter(currentCard)
-  const candidates = []
-  visibleCards.forEach(function(card) {
-    if (card == currentCard) {
-      return
-    }
-
-    const center = getAddElementTypeCardCenter(card)
-    if (direction == 'up' && center.y >= currentCenter.y) {
-      return
-    }
-
-    if (direction == 'down' && center.y <= currentCenter.y) {
-      return
-    }
-
-    candidates.push({
-      card: card,
-      horizontalDistance: Math.abs(center.x - currentCenter.x),
-      verticalDistance: Math.abs(center.y - currentCenter.y)
+  function getVisibleAddElementTypeCards() {
+    return Array.from(cards).filter(function(card) {
+      return card.style.display != 'none'
     })
-  })
-
-  if (!candidates.length) {
-    return
   }
 
-  candidates.sort(function(a, b) {
-    if (a.horizontalDistance != b.horizontalDistance) {
-      return a.horizontalDistance - b.horizontalDistance
+  function getFirstVisibleAddElementTypeCard() {
+    const visibleCards = getVisibleAddElementTypeCards()
+    return visibleCards.length ? visibleCards[0] : null
+  }
+
+  function focusAndSelectAddElementTypeCard(card) {
+    if (!card) {
+      return
     }
 
-    return a.verticalDistance - b.verticalDistance
-  })
-
-  activateAddElementTypeCard(candidates[0].card)
-}
-
-function activateAddElementTypeCard(card, focusCard = true) {
-  if (!card) {
-    return
-  }
-
-  const type = card.getAttribute('data-type')
-  selectAddElementType(type)
-
-  if (focusCard) {
+    const type = card.getAttribute('data-type')
+    selectAddElementType(type)
     card.focus({ preventScroll: true })
   }
-}
 
-cards.forEach(function(card) {
-  card.addEventListener('click', function() {
-    activateAddElementTypeCard(this, false)
-  })
+  function getAddElementTypeCardCenter(card) {
+    const rect = card.getBoundingClientRect()
 
-  card.addEventListener('dblclick', function() {
-    selectAddElementType(this.getAttribute('data-type'))
-    validateAddElementType()
-  })
-
-  card.addEventListener('keydown', function(event) {
-    if (event.key == 'Enter') {
-      event.preventDefault()
-      selectAddElementType(this.getAttribute('data-type'))
-      validateAddElementType()
-      return
+    return {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
     }
-
-    if (event.key == ' ') {
-      event.preventDefault()
-      selectAddElementType(this.getAttribute('data-type'))
-      return
-    }
-
-    if (event.key == 'ArrowLeft') {
-      event.preventDefault()
-      navigateAddElementTypeHorizontal(this, 'left')
-      return
-    }
-
-    if (event.key == 'ArrowRight') {
-      event.preventDefault()
-      navigateAddElementTypeHorizontal(this, 'right')
-      return
-    }
-
-    if (event.key == 'ArrowUp') {
-      event.preventDefault()
-      navigateAddElementTypeVertical(this, 'up')
-      return
-    }
-
-    if (event.key == 'ArrowDown') {
-      event.preventDefault()
-      navigateAddElementTypeVertical(this, 'down')
-    }
-  })
-})
-
-select.addEventListener('change', function() {
-  selectAddElementType(this.value)
-})
-
-document.addEventListener('keydown', function(event) {
-  if (!modal || modal.style.display == 'none' || modal.offsetParent === null) {
-    return
   }
 
-  if (event.key >= '1' && event.key <= '8') {
-    const index = parseInt(event.key) - 1
+  function navigateAddElementTypeHorizontal(currentCard, direction) {
     const visibleCards = getVisibleAddElementTypeCards()
-    if (visibleCards[index]) {
-      event.preventDefault()
-      selectAddElementType(visibleCards[index].getAttribute('data-type'))
-      validateAddElementType()
-    }
-    return
-  }
+    const currentCenter = getAddElementTypeCardCenter(currentCard)
+    const candidates = []
 
-  if (event.key != 'Escape') {
-    return
-  }
+    visibleCards.forEach(function(card) {
+      if (card == currentCard) {
+        return
+      }
 
-  if (!modal || modal.style.display == 'none' || modal.offsetParent === null) {
-    return
-  }
+      const center = getAddElementTypeCardCenter(card)
+      if (direction == 'left' && center.x >= currentCenter.x) {
+        return
+      }
 
-  event.preventDefault()
-  event.stopPropagation()
+      if (direction == 'right' && center.x <= currentCenter.x) {
+        return
+      }
 
-  const closeButton = document.getElementById('bt_crossElementSave')
-  if (closeButton) {
-    closeButton.click()
-  }
-})
+      candidates.push({
+        card: card,
+        verticalDistance: Math.abs(center.y - currentCenter.y),
+        horizontalDistance: Math.abs(center.x - currentCenter.x)
+      })
+    })
 
-function focusFirstAddElementTypeCard() {
-  const firstVisibleCard = getFirstVisibleAddElementTypeCard()
-  if (!firstVisibleCard) {
-    return
-  }
-
-  activateAddElementTypeCard(firstVisibleCard)
-}
-var btAddScenarioElement = document.getElementById('bt_addScenarioElement')
-if (btAddScenarioElement) {
-  btAddScenarioElement.addEventListener(
-    'click',
-    function() {
-      selectAddElementType(select.value || 'if')
-      setTimeout(function() { focusFirstAddElementTypeCard() }, 0)
-      setTimeout(function() { focusFirstAddElementTypeCard() }, 100)
-      setTimeout(function() { focusFirstAddElementTypeCard() }, 250)
-    }
-  )
-}
-
-if (modal) {
-  const focusObserver = new MutationObserver(function() {
-    const isVisible = modal.style.display != 'none' && modal.offsetParent !== null
-    if (!isVisible) {
+    if (!candidates.length) {
       return
     }
-    const activeElement = document.activeElement
-    const focusIsOnCard = activeElement && activeElement.classList.contains('addElementTypeCard')
 
-    if (!focusIsOnCard) {
-      requestAnimationFrame(function() {
-        focusFirstAddElementTypeCard()
-      })
-    }
-  })
-
-  focusObserver.observe(
-    modal,
-    {
-      attributes: true,
-      attributeFilter: ['style', 'class']
-    }
-  )
-}
-
-document.getElementById('in_searchInsideScenario').addEventListener('keyup', function(event) {
-  var search = this.value
-  document.querySelectorAll('#div_scenarioElement .insideSearch').removeClass('insideSearch')
-  document.querySelectorAll('#div_scenarioElement div.CodeMirror.CodeMirror-wrap').forEach(_code => {
-    _code.CodeMirror.setCursor(0)
-  })
-  if (search == '' || search.length < 3) {
-    document.querySelectorAll('i.fa-eye-slash').forEach(_bt => {
-      _bt.closest('.element')?.addClass('elementCollapse')
-    })
-    return
-  }
-  search = jeedomUtils.normTextLower(search)
-
-  //search code blocks:
-  var cmEditor, code, cursor
-  document.querySelectorAll('#div_scenarioElement div.elementCODE').forEach(_code => {
-    try {
-      cmEditor = _code.querySelector('div.CodeMirror.CodeMirror-wrap').CodeMirror
-      code = jeedomUtils.normTextLower(cmEditor.getValue())
-      if (code.includes(search)) {
-        _code.removeClass('elementCollapse')
-        cursor = cmEditor.getSearchCursor(search, CodeMirror.Pos(cmEditor.firstLine(), 0), {
-          caseFold: true,
-          multiline: true
-        })
-        if (cursor.find(false)) {
-          cmEditor.setSelection(cursor.from(), cursor.to())
-        }
-      } else {
-        _code.addClass('elementCollapse')
-        cmEditor.setCursor(0)
+    candidates.sort(function(a, b) {
+      if (a.verticalDistance != b.verticalDistance) {
+        return a.verticalDistance - b.verticalDistance
       }
-    } catch { }
-  })
-  //search in expressions:
-  var text
-  document.querySelectorAll('#div_scenarioElement div.element:not(.elementCODE) .expressionAttr').forEach(_expr => {
-    text = jeedomUtils.normTextLower(_expr.value)
-    if (text.includes(search)) {
-      _expr.addClass('insideSearch')
-      _expr.closestAll('.element').forEach(_parent => {
-        _parent.removeClass('elementCollapse')
+
+      return a.horizontalDistance - b.horizontalDistance
+    })
+
+    activateAddElementTypeCard(candidates[0].card)
+  }
+
+  function navigateAddElementTypeVertical(currentCard, direction) {
+    const visibleCards = getVisibleAddElementTypeCards()
+    const currentCenter = getAddElementTypeCardCenter(currentCard)
+    const candidates = []
+    visibleCards.forEach(function(card) {
+      if (card == currentCard) {
+        return
+      }
+
+      const center = getAddElementTypeCardCenter(card)
+      if (direction == 'up' && center.y >= currentCenter.y) {
+        return
+      }
+
+      if (direction == 'down' && center.y <= currentCenter.y) {
+        return
+      }
+
+      candidates.push({
+        card: card,
+        horizontalDistance: Math.abs(center.x - currentCenter.x),
+        verticalDistance: Math.abs(center.y - currentCenter.y)
       })
+    })
+
+    if (!candidates.length) {
+      return
+    }
+
+    candidates.sort(function(a, b) {
+      if (a.horizontalDistance != b.horizontalDistance) {
+        return a.horizontalDistance - b.horizontalDistance
+      }
+
+      return a.verticalDistance - b.verticalDistance
+    })
+
+    activateAddElementTypeCard(candidates[0].card)
+  }
+
+  function activateAddElementTypeCard(card, focusCard = true) {
+    if (!card) {
+      return
+    }
+
+    const type = card.getAttribute('data-type')
+    selectAddElementType(type)
+
+    if (focusCard) {
+      card.focus({ preventScroll: true })
+    }
+  }
+
+  cards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      activateAddElementTypeCard(this, false)
+    })
+
+    card.addEventListener('dblclick', function() {
+      selectAddElementType(this.getAttribute('data-type'))
+      validateAddElementType()
+    })
+
+    card.addEventListener('keydown', function(event) {
+      if (event.key == 'Enter') {
+        event.preventDefault()
+        selectAddElementType(this.getAttribute('data-type'))
+        validateAddElementType()
+        return
+      }
+
+      if (event.key == ' ') {
+        event.preventDefault()
+        selectAddElementType(this.getAttribute('data-type'))
+        return
+      }
+
+      if (event.key == 'ArrowLeft') {
+        event.preventDefault()
+        navigateAddElementTypeHorizontal(this, 'left')
+        return
+      }
+
+      if (event.key == 'ArrowRight') {
+        event.preventDefault()
+        navigateAddElementTypeHorizontal(this, 'right')
+        return
+      }
+
+      if (event.key == 'ArrowUp') {
+        event.preventDefault()
+        navigateAddElementTypeVertical(this, 'up')
+        return
+      }
+
+      if (event.key == 'ArrowDown') {
+        event.preventDefault()
+        navigateAddElementTypeVertical(this, 'down')
+      }
+    })
+  })
+
+  select.addEventListener('change', function() {
+    selectAddElementType(this.value)
+  })
+
+  document.addEventListener('keydown', function(event) {
+    if (!modal || modal.style.display == 'none' || modal.offsetParent === null) {
+      return
+    }
+
+    if (event.key >= '1' && event.key <= '8') {
+      const index = parseInt(event.key) - 1
+      const visibleCards = getVisibleAddElementTypeCards()
+      if (visibleCards[index]) {
+        event.preventDefault()
+        selectAddElementType(visibleCards[index].getAttribute('data-type'))
+        validateAddElementType()
+      }
+      return
+    }
+
+    if (event.key != 'Escape') {
+      return
+    }
+
+    if (!modal || modal.style.display == 'none' || modal.offsetParent === null) {
+      return
+    }
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    const closeButton = document.getElementById('bt_crossElementSave')
+    if (closeButton) {
+      closeButton.click()
     }
   })
-})
 
+  function focusFirstAddElementTypeCard() {
+    const firstVisibleCard = getFirstVisibleAddElementTypeCard()
+    if (!firstVisibleCard) {
+      return
+    }
+
+    activateAddElementTypeCard(firstVisibleCard)
+  }
+  const btAddScenarioElement = document.getElementById('bt_addScenarioElement')
+  if (btAddScenarioElement) {
+    btAddScenarioElement.addEventListener(
+      'click',
+      function() {
+        selectAddElementType(select.value || 'if')
+        setTimeout(function() { focusFirstAddElementTypeCard() }, 0)
+        setTimeout(function() { focusFirstAddElementTypeCard() }, 100)
+        setTimeout(function() { focusFirstAddElementTypeCard() }, 250)
+      }
+    )
+  }
+
+  if (modal) {
+    const focusObserver = new MutationObserver(function() {
+      const isVisible = modal.style.display != 'none' && modal.offsetParent !== null
+      if (!isVisible) {
+        return
+      }
+      const activeElement = document.activeElement
+      const focusIsOnCard = activeElement && activeElement.classList.contains('addElementTypeCard')
+
+      if (!focusIsOnCard) {
+        requestAnimationFrame(function() {
+          focusFirstAddElementTypeCard()
+        })
+      }
+    })
+
+    focusObserver.observe(
+      modal,
+      {
+        attributes: true,
+        attributeFilter: ['style', 'class']
+      }
+    )
+  }
+
+  document.getElementById('in_searchInsideScenario').addEventListener('keyup', function(event) {
+    var search = this.value
+    document.querySelectorAll('#div_scenarioElement .insideSearch').removeClass('insideSearch')
+    document.querySelectorAll('#div_scenarioElement div.CodeMirror.CodeMirror-wrap').forEach(_code => {
+      _code.CodeMirror.setCursor(0)
+    })
+    if (search == '' || search.length < 3) {
+      document.querySelectorAll('i.fa-eye-slash').forEach(_bt => {
+        _bt.closest('.element')?.addClass('elementCollapse')
+      })
+      return
+    }
+    search = jeedomUtils.normTextLower(search)
+
+    //search code blocks:
+    var cmEditor, code, cursor
+    document.querySelectorAll('#div_scenarioElement div.elementCODE').forEach(_code => {
+      try {
+        cmEditor = _code.querySelector('div.CodeMirror.CodeMirror-wrap').CodeMirror
+        code = jeedomUtils.normTextLower(cmEditor.getValue())
+        if (code.includes(search)) {
+          _code.removeClass('elementCollapse')
+          cursor = cmEditor.getSearchCursor(search, CodeMirror.Pos(cmEditor.firstLine(), 0), {
+            caseFold: true,
+            multiline: true
+          })
+          if (cursor.find(false)) {
+            cmEditor.setSelection(cursor.from(), cursor.to())
+          }
+        } else {
+          _code.addClass('elementCollapse')
+          cmEditor.setCursor(0)
+        }
+      } catch { }
+    })
+    //search in expressions:
+    var text
+    document.querySelectorAll('#div_scenarioElement div.element:not(.elementCODE) .expressionAttr').forEach(_expr => {
+      text = jeedomUtils.normTextLower(_expr.value)
+      if (text.includes(search)) {
+        _expr.addClass('insideSearch')
+        _expr.closestAll('.element').forEach(_parent => {
+          _parent.removeClass('elementCollapse')
+        })
+      }
+    })
+  })
+
+})();
 
 /*Events delegations
 */
