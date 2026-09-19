@@ -116,7 +116,7 @@ if (!jeeFrontEnd.scenario) {
     },
     //Copy / Paste
     removeObjectProp: function (obj, propToDelete) {
-      for (var property in obj) {
+      for (const property in obj) {
         if (obj.hasOwnProperty(property)) {
           if (typeof obj[property] == 'object') {
             this.removeObjectProp(obj[property], propToDelete)
@@ -129,9 +129,9 @@ if (!jeeFrontEnd.scenario) {
       }
     },
     setSortables: function () {
-      var selector = '.subElementACTION > .expressions, .subElementDO > .expressions, .subElementTHEN > .expressions, .subElementELSE > .expressions'
-      var containers = document.getElementById('div_scenarioElement').querySelectorAll(selector)
-      var commonOptions = {
+      const selector = '.subElementACTION > .expressions, .subElementDO > .expressions, .subElementTHEN > .expressions, .subElementELSE > .expressions'
+      const containers = document.getElementById('div_scenarioElement').querySelectorAll(selector)
+      const commonOptions = {
         group: {
           name: 'expressionSorting',
         },
@@ -177,7 +177,7 @@ if (!jeeFrontEnd.scenario) {
         if (Sortable.get(_Sortcontainer)) Sortable.get(_Sortcontainer).destroy()
         new Sortable(_Sortcontainer, commonOptions)
       })
-      var root = document.getElementById('root')
+      const root = document.getElementById('root')
       if (root) {
         if (Sortable.get(root)) Sortable.get(root).destroy()
         new Sortable(root, commonOptions)
@@ -188,15 +188,15 @@ if (!jeeFrontEnd.scenario) {
       Create same hierarchie for root elements to manage sortables:
       //root -> expressions -> expression -> col-xs-12 -> element
       */
-      var root = document.querySelector('#div_scenarioElement #root')
+      let root = document.querySelector('#div_scenarioElement #root')
       if (!root) {
         document.getElementById('div_scenarioElement').insertAdjacentHTML('afterbegin', '<div id="root" class="expressions"></div>')
         root = document.querySelector('#div_scenarioElement #root')
       }
-      var rootElements = document.querySelectorAll('#div_scenarioElement > div.element')
+      const rootElements = document.querySelectorAll('#div_scenarioElement > div.element')
       if (rootElements.length > 0) {
         rootElements.forEach(_element => {
-          var exp = document.createElement('div')
+          const exp = document.createElement('div')
           exp.addClass('expression sortable col-xs-12')
           exp.insertAdjacentHTML('afterbegin', '<input class="expressionAttr" data-l1key="id" style="display : none;" value=""/>')
           exp.insertAdjacentHTML('afterbegin', '<input class="expressionAttr" data-l1key="scenarioSubElement_id" style="display : none;" value=""/>')
@@ -238,7 +238,7 @@ if (!jeeFrontEnd.scenario) {
         },
         success: function (data) {
           domUtils.showLoading()
-          for (var i in data) {
+          for (const i in data) {
             document.getElementById(data[i].id).html(data[i].html.html, true)
           }
           domUtils.hideLoading()
@@ -249,15 +249,15 @@ if (!jeeFrontEnd.scenario) {
     updateDefinedActions: function (cmdModal = false) {
       //cmdModal called from cmd.configure modal to update ui list!
       if (cmdModal) {
-        var scId = document.querySelector('div#div_editScenario span[data-l1key="id"]').textContent
-        var cmdId = document.querySelector('div#cmd_information span[data-l1key="id"]')?.textContent
+        const scId = document.querySelector('div#div_editScenario span[data-l1key="id"]').textContent
+        const cmdId = document.querySelector('div#cmd_information span[data-l1key="id"]')?.textContent
 
-        var cmdName = jeephp2js.md_cmdConfigure_cmdInfo.eqLogicHumanName + '[' + jeephp2js.md_cmdConfigure_cmdInfo.name + ']'
+        const cmdName = jeephp2js.md_cmdConfigure_cmdInfo.eqLogicHumanName + '[' + jeephp2js.md_cmdConfigure_cmdInfo.name + ']'
 
         //clean actual cmd from list:
         jeeP.dataDefinedAction = jeeP.dataDefinedAction.filter(i => i['cmdId'] != cmdId)
 
-        var action, scenario_id, enable
+        let action, scenario_id, enable
         document.querySelectorAll('.actionCheckCmd').forEach(function (_cmd) {
           action = _cmd.querySelector('input[data-type="actionCheckCmd"]').jeeValue()
           if (action != "scenario") return true
@@ -305,9 +305,9 @@ if (!jeeFrontEnd.scenario) {
       }
 
       document.querySelector('.defined_actions').empty()
-      var htmlActions = ''
-      var prefix = ''
-      for (var i in jeeP.dataDefinedAction) {
+      let htmlActions = ''
+      let prefix = ''
+      for (const i in jeeP.dataDefinedAction) {
         if (jeeP.dataDefinedAction[i]['type'] == 'actionCheckCmd') prefix = 'Value -> '
         if (jeeP.dataDefinedAction[i]['type'] == 'jeedomPreExecCmd') prefix = 'PreExec -> '
         if (jeeP.dataDefinedAction[i]['type'] == 'jeedomPostExecCmd') prefix = 'PostExec -> '
@@ -390,7 +390,7 @@ if (!jeeFrontEnd.scenario) {
 
           //Triggers:
           if (Array.isArray(data.trigger)) {
-            for (var i in data.trigger) {
+            for (const i in data.trigger) {
               if (data.trigger[i] != '' && data.trigger[i] != null) {
                 jeeP.addTrigger(data.trigger[i])
               }
@@ -402,7 +402,7 @@ if (!jeeFrontEnd.scenario) {
           }
 
           if (Array.isArray(data.schedule)) {
-            for (var i in data.schedule) {
+            for (const i in data.schedule) {
               if (data.schedule[i] != '' && data.schedule[i] != null) {
                 jeeP.addSchedule(data.schedule[i])
               }
@@ -422,10 +422,10 @@ if (!jeeFrontEnd.scenario) {
           //Links:
           document.querySelector('#generaltab div.scenario_link_getUsedBy').empty()
           document.querySelector('#generaltab div.scenario_link_getUse').empty()
-          var html_getUsedBy = ''
-          var html_getUse = ''
+          let html_getUsedBy = ''
+          let html_getUse = ''
           if (data.scenario_link.scenario) {
-            for (var i in data.scenario_link.scenario) {
+            for (const i in data.scenario_link.scenario) {
               if (data.scenario_link.scenario[i].link == 'getUsedBy') {
                 if (data.scenario_link.scenario[i].isActive == 1) {
                   html_getUsedBy += '<span class="label label-success cursor scenario_link" data-scenario_id="' + i + '">' + data.scenario_link.scenario[i].name + '</span><br/>'
@@ -453,8 +453,8 @@ if (!jeeFrontEnd.scenario) {
           jeeP.actionOptions = []
 
 
-          var elements = ''
-          for (var i in data.elements) {
+          let elements = ''
+          for (const i in data.elements) {
             elements += jeeP.addElement(data.elements[i])
           }
           document.getElementById('div_scenarioElement').insertAdjacentHTML('beforeend', elements)
@@ -467,9 +467,9 @@ if (!jeeFrontEnd.scenario) {
           jeeP.updateElementCollapse()
           jeeP.updateElseToggle()
           jeedomUtils.taAutosize()
-          var title = ''
+          let title = ''
           if (data.name) title = data.name + ' - ' + JEEDOM_PRODUCT_NAME
-          var hash = window.location.hash
+          const hash = window.location.hash
           jeedomUtils.addOrUpdateUrl('id', data.id, title)
           if (hash == '') {
             document.querySelector('.nav-tabs a[data-target="#generaltab"]').click()
@@ -497,12 +497,12 @@ if (!jeeFrontEnd.scenario) {
     saveScenario: function (_callback) {
       jeedomUtils.hideAlert()
       //Get scenarios settings:
-      var scenario = this.dom_divScenario.getJeeValues('.scenarioAttr')[0]
+      const scenario = this.dom_divScenario.getJeeValues('.scenarioAttr')[0]
       if (typeof scenario.trigger == 'undefined') scenario.trigger = ''
       if (typeof scenario.schedule == 'undefined') scenario.schedule = ''
 
       //Get scenario elements:
-      var elements = []
+      const elements = []
       document.getElementById('root').querySelectorAll(':scope > .expression').forEach(_exp => {
         elements.push(jeeP.getElement(_exp.querySelector('div.element')))
       })
@@ -519,7 +519,7 @@ if (!jeeFrontEnd.scenario) {
         success: function (data) {
           jeeFrontEnd.modifyWithoutSave = false
           jeeP.resetUndo()
-          var url = 'index.php?v=d&p=scenario&id=' + data.id + '&saveSuccessFull=1'
+          let url = 'index.php?v=d&p=scenario&id=' + data.id + '&saveSuccessFull=1'
           if (window.location.hash != '') {
             url += window.location.hash
           }
@@ -532,7 +532,7 @@ if (!jeeFrontEnd.scenario) {
     },
     //Adding:
     addTrigger: function (_trigger) {
-      var div = '<div class="form-group trigger">'
+      let div = '<div class="form-group trigger">'
       div += '<label class="col-xs-3 control-label">{{Evénement}}</label>'
       div += '<div class="col-xs-9">'
       div += '<div class="input-group">'
@@ -549,7 +549,7 @@ if (!jeeFrontEnd.scenario) {
       document.querySelector('.provokeMode').insertAdjacentHTML('beforeend', div)
     },
     addSchedule: function (_schedule) {
-      var div = '<div class="form-group schedule">'
+      let div = '<div class="form-group schedule">'
       div += '<label class="col-xs-3 control-label">{{Programmation}}</label>'
       div += '<div class="col-xs-9">'
       div += '<div class="input-group">'
@@ -565,12 +565,12 @@ if (!jeeFrontEnd.scenario) {
     },
     addExpression: function (_expression) {
       if (!isset(_expression) || !isset(_expression.type) || _expression.type == '') return ''
-      var sortable = 'sortable'
+      let sortable = 'sortable'
       if (_expression.type == 'condition' || _expression.type == 'code') {
         sortable = 'noSortable'
       }
 
-      var retour = '<div class="expression ' + sortable + ' col-xs-12" >'
+      let retour = '<div class="expression ' + sortable + ' col-xs-12" >'
       if (_expression.type == 'action') {
         retour = '<div class="expression expressionACTION ' + sortable + ' col-xs-12" >'
       }
@@ -600,7 +600,7 @@ if (!jeeFrontEnd.scenario) {
           if (isset(_expression.element) && isset(_expression.element.html)) {
             retour += _expression.element.html
           } else {
-            var element = jeeP.addElement(_expression.element, true)
+            const element = jeeP.addElement(_expression.element, true)
             if (element.trim() == '') {
               return ''
             }
@@ -621,7 +621,7 @@ if (!jeeFrontEnd.scenario) {
           } else {
             retour += '<input type="checkbox" class="expressionAttr" data-l1key="options" data-l2key="background" checked  title="{{Cocher pour que la commande s\'exécute en parallèle des autres actions}}"/>'
           }
-          var expression_txt = init(_expression.expression)
+          let expression_txt = init(_expression.expression)
           if (typeof expression_txt != 'string') {
             expression_txt = JSON.stringify(expression_txt)
           }
@@ -636,7 +636,7 @@ if (!jeeFrontEnd.scenario) {
           retour += '<button class="btn btn-default bt_selectCmdExpression roundedRight" type="button" title="{{Sélectionner la commande}}"><i class="fas fa-list-alt"></i></button>'
           retour += '</span>'
           retour += '</div></div>'
-          var actionOption_id = jeedomUtils.uniqId()
+          const actionOption_id = jeedomUtils.uniqId()
           retour += '<div class="col-xs-7 expressionOptions"  id="' + actionOption_id + '">'
           retour += '</div>'
           this.actionOptions.push({
@@ -660,12 +660,12 @@ if (!jeeFrontEnd.scenario) {
     addSubElement: function (_subElement) {
       if (!isset(_subElement.type) || _subElement.type == '') return ''
       if (!isset(_subElement.options)) _subElement.options = {}
-      var noSortable = ''
+      let noSortable = ''
       if (_subElement.type == 'if' || _subElement.type == 'for' || _subElement.type == 'while' || _subElement.type == 'code') {
         noSortable = 'noSortable'
       }
 
-      var blocClass = ''
+      let blocClass = ''
       switch (_subElement.type) {
         case 'if':
           blocClass = 'subElementIF'
@@ -701,7 +701,7 @@ if (!jeeFrontEnd.scenario) {
           blocClass = 'subElementACTION'
           break
       }
-      var retour = '<div class="subElement ' + blocClass + ' ' + noSortable + '">'
+      let retour = '<div class="subElement ' + blocClass + ' ' + noSortable + '">'
       retour += '<input class="subElementAttr" data-l1key="id" style="display : none;" value="' + init(_subElement.id) + '"/>'
       retour += '<input class="subElementAttr" data-l1key="scenarioElement_id" style="display : none;" value="' + init(_subElement.scenarioElement_id) + '"/>'
       retour += '<input class="subElementAttr" data-l1key="type" style="display : none;" value="' + init(_subElement.type) + '"/>'
@@ -733,7 +733,7 @@ if (!jeeFrontEnd.scenario) {
           retour += '</div>'
 
           retour += '<div class="expressions" >'
-          var expression = {
+          let expression = {
             type: 'condition'
           }
           if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
@@ -752,7 +752,7 @@ if (!jeeFrontEnd.scenario) {
           retour += '</div>'
           retour += '<div class="expressions">'
           if (isset(_subElement.expressions)) {
-            for (var k in _subElement.expressions) {
+            for (const k in _subElement.expressions) {
               retour += this.addExpression(_subElement.expressions[k])
             }
           }
@@ -767,7 +767,7 @@ if (!jeeFrontEnd.scenario) {
           retour += '</div>'
           retour += '<div class="expressions">'
           if (isset(_subElement.expressions)) {
-            for (var k in _subElement.expressions) {
+            for (const k in _subElement.expressions) {
               retour += this.addExpression(_subElement.expressions[k])
             }
           }
@@ -793,13 +793,13 @@ if (!jeeFrontEnd.scenario) {
           retour += '<legend >{{DE 1 A}}</legend>'
           retour += '</div>'
           retour += '<div class="expressions" >'
-          var expression = {
+          let expression_for = {
             type: 'condition'
           }
           if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
-            expression = _subElement.expressions[0]
+            expression_for = _subElement.expressions[0]
           }
-          retour += this.addExpression(expression)
+          retour += this.addExpression(expression_for)
           retour += '</div>'
           retour = this.addElButtons(retour)
           break
@@ -823,13 +823,13 @@ if (!jeeFrontEnd.scenario) {
           retour += '<legend >{{TANT QUE}}</legend>'
           retour += '</div>'
           retour += '<div class="expressions" >'
-          var expression = {
+          let expression_while = {
             type: 'condition'
           }
           if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
-            expression = _subElement.expressions[0]
+            expression_while = _subElement.expressions[0]
           }
-          retour += this.addExpression(expression)
+          retour += this.addExpression(expression_while)
           retour += '</div>'
           retour = this.addElButtons(retour)
           break
@@ -853,13 +853,13 @@ if (!jeeFrontEnd.scenario) {
           retour += '<legend title="{{Action DANS x minutes}}">{{DANS}}</legend>'
           retour += '</div>'
           retour += '<div class="expressions" >'
-          var expression = {
+          let expression_in = {
             type: 'condition'
           }
           if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
-            expression = _subElement.expressions[0]
+            expression_in = _subElement.expressions[0]
           }
-          retour += this.addExpression(expression)
+          retour += this.addExpression(expression_in)
           retour += '</div>'
           retour = this.addElButtons(retour)
           break
@@ -883,13 +883,13 @@ if (!jeeFrontEnd.scenario) {
           retour += '<legend >{{A}}</legend><span>(Hmm)</span>'
           retour += '</div>'
           retour += '<div class="expressions" >'
-          var expression = {
+          let expression_at = {
             type: 'condition'
           }
           if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
-            expression = _subElement.expressions[0]
+            expression_at = _subElement.expressions[0]
           }
-          retour += this.addExpression(expression)
+          retour += this.addExpression(expression_at)
           retour += '</div>'
           retour = this.addElButtons(retour)
           break
@@ -902,7 +902,7 @@ if (!jeeFrontEnd.scenario) {
           retour += '</div>'
           retour += '<div class="expressions">'
           if (isset(_subElement.expressions)) {
-            for (var k in _subElement.expressions) {
+            for (const k in _subElement.expressions) {
               retour += this.addExpression(_subElement.expressions[k])
             }
           }
@@ -926,18 +926,18 @@ if (!jeeFrontEnd.scenario) {
           retour += '</div>'
           retour += '<div>'
           retour += '<legend >{{CODE}}</legend>'
-          var expression = {
+          let expression_code = {
             type: 'code'
           }
           if (isset(_subElement.expressions) && isset(_subElement.expressions[0]) && typeof _subElement.expressions[0].expression == "string") {
-            expression = _subElement.expressions[0]
-            retour += '<div class="blocPreview">' + expression.expression.substring(0, 200).HTMLFormat() + '</div>'
+            expression_code = _subElement.expressions[0]
+            retour += '<div class="blocPreview">' + expression_code.expression.substring(0, 200).HTMLFormat() + '</div>'
           } else {
             retour += '<div class="blocPreview"></div>'
           }
           retour += '</div>'
           retour += '<div class="expressions">'
-          retour += this.addExpression(expression)
+          retour += this.addExpression(expression_code)
           retour += '</div>'
           retour = this.addElButtons(retour)
           break
@@ -954,15 +954,15 @@ if (!jeeFrontEnd.scenario) {
           retour += '</div>'
           retour += '<div>'
           retour += '<legend >{{COMMENTAIRE}}</legend>'
-          var expression = {
+          let expression_comment = {
             type: 'comment'
           }
           if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
-            expression = _subElement.expressions[0]
-            if (typeof expression.expression === 'object') {
-              expression.expression = JSON.stringify(expression.expression, null, 2)
+            expression_comment = _subElement.expressions[0]
+            if (typeof expression_comment.expression === 'object') {
+              expression_comment.expression = JSON.stringify(expression_comment.expression, null, 2)
             }
-            var txt = expression.expression.substring(0, 200).HTMLFormat()
+            let txt = expression_comment.expression.substring(0, 200).HTMLFormat()
             txt = '<b>' + txt.split('\n')[0] + '</b>' + txt.replace(txt.split('\n')[0], '')
             retour += '<div class="blocPreview">' + txt + '</div>'
           } else {
@@ -970,7 +970,7 @@ if (!jeeFrontEnd.scenario) {
           }
           retour += '</div>'
           retour += '<div class="expressions">'
-          retour += this.addExpression(expression)
+          retour += this.addExpression(expression_comment)
           retour += '</div>'
           retour = this.addElButtons(retour)
           break
@@ -991,9 +991,9 @@ if (!jeeFrontEnd.scenario) {
           }
           retour += '<legend class="legendHidden">{{ACTION}}</legend>'
           if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
-            expression = _subElement.expressions[0]
-            if (expression.type == 'element' && isset(expression.element.subElements) && isset(expression.element.subElements[0]) && isset(expression.element.subElements[0].expressions) && isset(expression.element.subElements[0].expressions[0])) {
-              retour += '<div class="blocPreview">' + expression.element.subElements[0].expressions[0].expression.substring(0, 200).HTMLFormat() + '</div>'
+            let expression_action = _subElement.expressions[0]
+            if (expression_action.type == 'element' && isset(expression_action.element.subElements) && isset(expression_action.element.subElements[0]) && isset(expression_action.element.subElements[0].expressions) && isset(expression_action.element.subElements[0].expressions[0])) {
+              retour += '<div class="blocPreview">' + expression_action.element.subElements[0].expressions[0].expression.substring(0, 200).HTMLFormat() + '</div>'
             } else {
               try { retour += '<div class="blocPreview">' + _subElement.expressions[0].expression.substring(0, 200).HTMLFormat() + '</div>' } catch (e) { }
             }
@@ -1007,7 +1007,7 @@ if (!jeeFrontEnd.scenario) {
           retour += '</div>'
           retour += '<div class="expressions">'
           if (isset(_subElement.expressions)) {
-            for (var k in _subElement.expressions) {
+            for (const k in _subElement.expressions) {
               retour += this.addExpression(_subElement.expressions[k])
             }
           }
@@ -1028,7 +1028,7 @@ if (!jeeFrontEnd.scenario) {
       if (!isset(_element)) return
       if (!isset(_element.type) || _element.type == '') return ''
 
-      var elementClass = ''
+      let elementClass = ''
       switch (_element.type) {
         case 'if':
           elementClass = 'elementIF'
@@ -1055,14 +1055,14 @@ if (!jeeFrontEnd.scenario) {
           elementClass = 'elementACTION'
       }
 
-      var div = '<div class="element ' + elementClass + '">'
+      let div = '<div class="element ' + elementClass + '">'
 
       div += '<input class="elementAttr" data-l1key="id" style="display : none;" value="' + init(_element.id) + '"/>'
       div += '<input class="elementAttr" data-l1key="type" style="display : none;" value="' + init(_element.type) + '"/>'
       switch (_element.type) {
         case 'if':
           if (isset(_element.subElements) && isset(_element.subElements)) {
-            for (var j in _element.subElements) {
+            for (const j in _element.subElements) {
               div += this.addSubElement(_element.subElements[j])
             }
           } else {
@@ -1079,7 +1079,7 @@ if (!jeeFrontEnd.scenario) {
           break
         case 'for':
           if (isset(_element.subElements) && isset(_element.subElements)) {
-            for (var j in _element.subElements) {
+            for (const j in _element.subElements) {
               div += this.addSubElement(_element.subElements[j])
             }
           } else {
@@ -1093,7 +1093,7 @@ if (!jeeFrontEnd.scenario) {
           break
         case 'while':
           if (isset(_element.subElements) && isset(_element.subElements)) {
-            for (var j in _element.subElements) {
+            for (const j in _element.subElements) {
               div += this.addSubElement(_element.subElements[j])
             }
           } else {
@@ -1107,7 +1107,7 @@ if (!jeeFrontEnd.scenario) {
           break
         case 'in':
           if (isset(_element.subElements) && isset(_element.subElements)) {
-            for (var j in _element.subElements) {
+            for (const j in _element.subElements) {
               div += this.addSubElement(_element.subElements[j])
             }
           } else {
@@ -1121,7 +1121,7 @@ if (!jeeFrontEnd.scenario) {
           break
         case 'at':
           if (isset(_element.subElements) && isset(_element.subElements)) {
-            for (var j in _element.subElements) {
+            for (const j in _element.subElements) {
               div += this.addSubElement(_element.subElements[j])
             }
           } else {
@@ -1135,7 +1135,7 @@ if (!jeeFrontEnd.scenario) {
           break
         case 'code':
           if (isset(_element.subElements) && isset(_element.subElements)) {
-            for (var j in _element.subElements) {
+            for (const j in _element.subElements) {
               div += this.addSubElement(_element.subElements[j])
             }
           } else {
@@ -1146,7 +1146,7 @@ if (!jeeFrontEnd.scenario) {
           break
         case 'comment':
           if (isset(_element.subElements) && isset(_element.subElements)) {
-            for (var j in _element.subElements) {
+            for (const j in _element.subElements) {
               div += this.addSubElement(_element.subElements[j])
             }
           } else {
@@ -1157,7 +1157,7 @@ if (!jeeFrontEnd.scenario) {
           break
         case 'action':
           if (isset(_element.subElements) && isset(_element.subElements)) {
-            for (var j in _element.subElements) {
+            for (const j in _element.subElements) {
               div += this.addSubElement(_element.subElements[j])
             }
           } else {
@@ -1171,7 +1171,7 @@ if (!jeeFrontEnd.scenario) {
       return div
     },
     getElement: function (dom_element) {
-      var element = dom_element.getJeeValues('.elementAttr', 1)
+      let element = dom_element.getJeeValues('.elementAttr', 1)
       if (element.length == 0) return
       element = element[0]
       element.subElements = []
@@ -1181,7 +1181,7 @@ if (!jeeFrontEnd.scenario) {
         dom_element = [dom_element]
       }
 
-      var subElement, expression_dom, expression, id
+      let subElement, expression_dom, expression, id
       dom_element.forEach(function (dom_el) {
         dom_el.findAtDepth('.subElement', 2).forEach(function (_el) {
           subElement = _el.getJeeValues('.subElementAttr', 2)[0]
@@ -1213,7 +1213,7 @@ if (!jeeFrontEnd.scenario) {
     },
     getAddButton: function (_type, _caret) {
       if (!isset(_caret)) _caret = false
-      var retour = ''
+      let retour = ''
       if (_caret) {
         retour += '<div class="input-group">'
         retour += '<button class="bt_showElse btn btn-xs btn-default roundedLeft" type="button" data-toggle="dropdown" title="{{Afficher/masquer le bloc Sinon}}" aria-haspopup="true" aria-expanded="true">'
@@ -1254,9 +1254,9 @@ if (!jeeFrontEnd.scenario) {
     },
     updateAccordionName: function () {
       document.querySelectorAll('a.accordion-toggle').forEach(function (_acc) {
-        var name = _acc.getAttribute('data-groupname')
-        var num = _acc.closest('div.panel').querySelectorAll('div.scenarioDisplayCard').length
-        var newName = name + ' - ' + num + ' ' + (num > 1 ? '{{scénarios}}' : '{{scénario}}')
+        const name = _acc.getAttribute('data-groupname')
+        const num = _acc.closest('div.panel').querySelectorAll('div.scenarioDisplayCard').length
+        const newName = name + ' - ' + num + ' ' + (num > 1 ? '{{scénarios}}' : '{{scénario}}')
         _acc.textContent = newName
       })
     },
@@ -1264,7 +1264,7 @@ if (!jeeFrontEnd.scenario) {
     getSelectCmdExpressionMessage: function (subType, cmdHumanName) {
       if (!['numeric', 'string', 'binary'].includes(subType)) return '{{Aucun choix possible}}'
 
-      var message = '<div class="row">'
+      let message = '<div class="row">'
       message += '<div class="col-md-12">'
       message += '<form class="form-horizontal" onsubmit="return false;">'
       message += '<div class="form-group">'
@@ -1338,7 +1338,7 @@ if (!jeeFrontEnd.scenario) {
       return message
     },
     selectCmdFromModal: function (event) { //Condition chaining modals outside page_container, called from bt_selectCmdFromModal onclick()
-      var modal = event.target.closest('.jeeDialogPrompt')
+      const modal = event.target.closest('.jeeDialogPrompt')
       modal.style.display = 'none'
       jeedom.cmd.getSelectModal({
         cmd: {
@@ -1354,8 +1354,8 @@ if (!jeeFrontEnd.scenario) {
     reloadStack: function (loadStack) {
       document.getElementById('div_scenarioElement').empty()
       this.actionOptions = []
-      var elements = ''
-      for (var i in loadStack) {
+      let elements = ''
+      for (const i in loadStack) {
         elements += this.addElement(loadStack[i])
       }
       document.getElementById('div_scenarioElement').empty().html(elements, true)
@@ -1368,7 +1368,7 @@ if (!jeeFrontEnd.scenario) {
       this.bt_undo.removeClass('disabled')
       this.bt_redo.addClass('disabled')
 
-      var newStack = []
+      const newStack = []
       document.getElementById('root').querySelectorAll(':scope > .expression').forEach(_exp => {
         newStack.push(jeeP.getElement(_exp.querySelector('div.element')))
       })
@@ -1390,7 +1390,7 @@ if (!jeeFrontEnd.scenario) {
         return
       }
       try {
-        var loadState = this.undoState
+        const loadState = this.undoState
         if (this.reDo == 0) this.setUndoStack(this.undoState + 1)
         this.reloadStack(this.undoStack[loadState])
         this.undoState -= 1
@@ -1414,7 +1414,7 @@ if (!jeeFrontEnd.scenario) {
       }
       this.bt_undo.removeClass('disabled')
       try {
-        var loadState = this.undoState + 2
+        const loadState = this.undoState + 2
         this.reloadStack(this.undoStack[loadState])
         this.undoState += 1
 
@@ -1439,14 +1439,14 @@ if (!jeeFrontEnd.scenario) {
     },
     //Code Editors:
     setEditors: function () {
-      var expression, code
+      let expression, code
       document.querySelectorAll('.expressionAttr[data-l1key="type"][value="code"]').forEach(function (elCode) {
         expression = elCode.closest('.expression')
         code = expression.querySelector('.expressionAttr[data-l1key="expression"]')
         elCode.querySelector('.blocPreview')?.html(code.value)
         if (code.getAttribute('id') == undefined && code.isVisible()) {
           code.uniqueId()
-          var id = code.getAttribute('id')
+          const id = code.getAttribute('id')
           setTimeout(function () {
             jeeP.editors[id] = CodeMirror.fromTextArea(document.getElementById(id), {
               lineNumbers: true,
@@ -1467,7 +1467,7 @@ if (!jeeFrontEnd.scenario) {
     },
     resetEditors: function () {
       this.editors = []
-      var expression, code
+      let expression, code
       document.querySelectorAll('.expressionAttr[data-l1key="type"][value="code"]').forEach(elCode => {
         expression = elCode.closest('.expression')
         code = expression.querySelector('.expressionAttr[data-l1key="expression"]')
@@ -1478,7 +1478,7 @@ if (!jeeFrontEnd.scenario) {
       this.setEditors()
     },
     syncEditors: function () {
-      var expression, code, id
+      let expression, code, id
       document.querySelectorAll('.expressionAttr[data-l1key="type"][value="code"]').forEach(function (elCode) {
         expression = elCode.closest('.expression')
         code = expression.querySelector('.expressionAttr[data-l1key="expression"]')
@@ -1553,9 +1553,9 @@ document.getElementById('bt_addScenario').addEventListener('click', function (ev
           })
         },
         success: function (data) {
-          var vars = getUrlVars()
-          var url = 'index.php?'
-          for (var i in vars) {
+          const vars = getUrlVars()
+          let url = 'index.php?'
+          for (const i in vars) {
             if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
               url += i + '=' + vars[i].replace('#', '') + '&'
             }
@@ -1571,11 +1571,12 @@ document.getElementById('bt_addScenario').addEventListener('click', function (ev
 })
 
 document.getElementById('bt_changeAllScenarioState').addEventListener('click', function (event) {
-  var _target = event.target.closest('#bt_changeAllScenarioState')
+  const _target = event.target.closest('#bt_changeAllScenarioState')
+  let msg = ''
   if (_target.getAttribute('data-state') == '0') {
-    var msg = '{{Êtes-vous sûr de vouloir désactiver les scénarios ?}}'
+    msg = '{{Êtes-vous sûr de vouloir désactiver les scénarios ?}}'
   } else {
-    var msg = '{{Êtes-vous sûr de vouloir activer les scénarios ?}}'
+    msg = '{{Êtes-vous sûr de vouloir activer les scénarios ?}}'
   }
 
   jeeDialog.confirm(msg, function (result) {
@@ -1984,7 +1985,7 @@ document.querySelector('.scenarioAttr[data-l2key="timeline::enable"]').addEventL
 })();
 
 document.getElementById('in_searchInsideScenario').addEventListener('keyup', function (event) {
-  var search = this.value
+  let search = this.value
   document.querySelectorAll('#div_scenarioElement .insideSearch').removeClass('insideSearch')
   document.querySelectorAll('#div_scenarioElement div.CodeMirror.CodeMirror-wrap').forEach(_code => {
     _code.CodeMirror.setCursor(0)
@@ -1998,7 +1999,7 @@ document.getElementById('in_searchInsideScenario').addEventListener('keyup', fun
   search = jeedomUtils.normTextLower(search)
 
   //search code blocks:
-  var cmEditor, code, cursor
+  let cmEditor, code, cursor
   document.querySelectorAll('#div_scenarioElement div.elementCODE').forEach(_code => {
     try {
       cmEditor = _code.querySelector('div.CodeMirror.CodeMirror-wrap').CodeMirror
@@ -2019,7 +2020,7 @@ document.getElementById('in_searchInsideScenario').addEventListener('keyup', fun
     } catch { }
   })
   //search in expressions:
-  var text
+  let text
   document.querySelectorAll('#div_scenarioElement div.element:not(.elementCODE) .expressionAttr').forEach(_expr => {
     text = jeedomUtils.normTextLower(_expr.value)
     if (text.includes(search)) {
@@ -2037,20 +2038,20 @@ document.getElementById('in_searchInsideScenario').addEventListener('keyup', fun
 
 //_________________Root page events:
 document.getElementById('in_searchScenario').addEventListener('keyup', function () {
-  var search = this.value
+  let search = this.value
   if (search == '') {
     document.querySelectorAll('#accordionScenario .accordion-toggle:not(.collapsed)').forEach(_panel => { _panel.click() })
     document.querySelectorAll('.scenarioDisplayCard').seen()
     return
   }
   search = jeedomUtils.normTextLower(search)
-  var not = search.startsWith(":not(")
+  const not = search.startsWith(":not(")
   if (not) {
     search = search.replace(':not(', '')
   }
   document.querySelectorAll('#accordionScenario .accordion-toggle').forEach(_panel => { _panel.setAttribute('data-show', 0) })
   document.querySelectorAll('.scenarioDisplayCard').unseen()
-  var match, text
+  let match, text
 
   document.querySelectorAll('.scenarioDisplayCard .name').forEach(scName => {
     match = false
@@ -2071,7 +2072,7 @@ document.getElementById('in_searchScenario').addEventListener('keyup', function 
 })
 
 document.getElementById('scenarioThumbnailDisplay').addEventListener('click', function (event) {
-  var _target = null
+  let _target = null
   if (!event.target.matches('a.accordion-toggle')) {
     event.preventDefault()
     event.stopImmediatePropagation()
@@ -2094,7 +2095,7 @@ document.getElementById('scenarioThumbnailDisplay').addEventListener('click', fu
   }
 
   if (_target = event.target.closest('#accordionScenario .bt_ViewLog')) {
-    var id = _target.closest('.scenarioDisplayCard').getAttribute('data-scenario_id')
+    const id = _target.closest('.scenarioDisplayCard').getAttribute('data-scenario_id')
     jeeDialog.dialog({
       id: 'jee_modal2',
       title: "{{Log d'exécution du scénario}}",
@@ -2104,9 +2105,9 @@ document.getElementById('scenarioThumbnailDisplay').addEventListener('click', fu
   }
 
   if (_target = event.target.closest('.scenarioDisplayCard')) {
-    var id = _target.getAttribute('data-scenario_id')
+    const id = _target.getAttribute('data-scenario_id')
     if ((isset(event.detail) && event.detail.ctrlKey) || event.ctrlKey || event.metaKey) {
-      var url = '/index.php?v=d&p=scenario&id=' + id
+      const url = '/index.php?v=d&p=scenario&id=' + id
       window.open(url).focus()
     } else {
       document.getElementById('scenarioThumbnailDisplay').unseen()
@@ -2117,11 +2118,11 @@ document.getElementById('scenarioThumbnailDisplay').addEventListener('click', fu
 })
 
 document.getElementById('scenarioThumbnailDisplay').addEventListener('mouseup', function (event) {
-  var _target = null
+  let _target = null
   if (_target = event.target.closest('.scenarioDisplayCard')) {
     if (event.which == 2) {
       event.preventDefault()
-      var id = _target.getAttribute('data-scenario_id')
+      const id = _target.getAttribute('data-scenario_id')
       document.querySelector('.scenarioDisplayCard[data-scenario_id="' + id + '"]').triggerEvent('click', { detail: { ctrlKey: true } })
     }
     return
@@ -2131,7 +2132,7 @@ document.getElementById('scenarioThumbnailDisplay').addEventListener('mouseup', 
 
 //_________________Floating bar events:
 document.getElementById('div_editScenario').querySelector('div.floatingbar').addEventListener('click', function (event) {
-  var _target = null
+  let _target = null
   if (_target = event.target.closest('#bt_logScenario')) {
     jeeDialog.dialog({
       id: 'jee_modal',
@@ -2203,8 +2204,8 @@ document.getElementById('div_editScenario').querySelector('div.floatingbar').add
 
   if (_target = event.target.closest('#bt_runScenario')) {
     jeedomUtils.hideAlert()
-    var scenario_id = document.querySelector('.scenarioAttr[data-l1key="id"]').jeeValue()
-    var logmode = document.querySelector('select[data-l2key="logmode"]').jeeValue()
+    const scenario_id = document.querySelector('.scenarioAttr[data-l1key="id"]').jeeValue()
+    const logmode = document.querySelector('select[data-l2key="logmode"]').jeeValue()
     if (event.ctrlKey || event.metaKey) {
       jeeP.saveScenario(function () {
         jeedom.scenario.changeState({
@@ -2332,7 +2333,7 @@ document.getElementById('div_editScenario').querySelector('div.floatingbar').add
 
   if (_target = event.target.closest('#bt_resetInsideScenarioSearch')) {
     if (_target.hasClass('disabled')) return
-    var searchField = document.getElementById('in_searchInsideScenario')
+    const searchField = document.getElementById('in_searchInsideScenario')
     if (_target.getAttribute('data-state') == '0') {
       //show search:
       searchField.seen()
@@ -2384,12 +2385,12 @@ document.getElementById('div_editScenario').querySelector('div.floatingbar').add
 
 //_________________General tab events:
 document.getElementById('generaltab').addEventListener('click', function (event) {
-  var _target = null
+  let _target = null
 
   if (_target = event.target.closest('.scenario_link')) {
     jeedomUtils.hideAlert()
     if ((isset(event.detail) && event.detail.ctrlKey) || event.ctrlKey || event.metaKey) {
-      var url = '/index.php?v=d&p=scenario&id=' + event.target.getAttribute('data-scenario_id')
+      const url = '/index.php?v=d&p=scenario&id=' + event.target.getAttribute('data-scenario_id')
       window.open(url).focus()
     } else {
       document.getElementById('scenarioThumbnailDisplay').unseen()
@@ -2399,7 +2400,7 @@ document.getElementById('generaltab').addEventListener('click', function (event)
 
   if (_target = event.target.closest('.action_link')) {
     jeedomUtils.hideAlert()
-    var cmdId = _target.getAttribute('data-cmd_id')
+    const cmdId = _target.getAttribute('data-cmd_id')
     jeeDialog.dialog({
       id: 'jee_modal2',
       title: '{{Configuration de la commande}}',
@@ -2410,7 +2411,7 @@ document.getElementById('generaltab').addEventListener('click', function (event)
 
   if (_target = event.target.closest('#bt_chooseIcon')) {
     jeedomUtils.hideAlert()
-    var _icon = false
+    let _icon = false
     if (document.querySelector('div[data-l2key="icon"] > i') != null) {
       _icon = document.querySelector('div[data-l2key="icon"] > i').getAttribute('class')
     }
@@ -2486,7 +2487,7 @@ document.getElementById('generaltab').addEventListener('mouseup', function (even
   if (event.target.matches('.scenario_link')) {
     if (event.which == 2) {
       event.preventDefault()
-      var id = event.target.getAttribute('data-scenario_id')
+      const id = event.target.getAttribute('data-scenario_id')
       document.querySelector('.scenario_link[data-scenario_id="' + id + '"]').triggerEvent('click', { detail: { ctrlKey: true } })
     }
   }
@@ -2503,12 +2504,13 @@ document.getElementById('generaltab').addEventListener('dblclick', function (eve
 
 //_________________Scenario tab events:
 document.getElementById('scenariotab').addEventListener('click', function (event) {
-  var _target = null
+  let _target = null
   if (_target = event.target.closest('#bt_addElementSave')) { //Ok button from new block modal
     jeeP.setUndoStack()
     jeeFrontEnd.modifyWithoutSave = true
+    let newEL
     if (jeeP.addElementSave.expression) {
-      var newEL = domUtils.parseHTML(jeeP.addExpression({
+      newEL = domUtils.parseHTML(jeeP.addExpression({
         type: 'element',
         element: {
           type: document.getElementById("in_addElementType").jeeValue()
@@ -2516,7 +2518,7 @@ document.getElementById('scenariotab').addEventListener('click', function (event
       })
       )
     } else {
-      var newEL = domUtils.parseHTML(jeeP.addElement({
+      newEL = domUtils.parseHTML(jeeP.addElement({
         type: document.getElementById("in_addElementType").jeeValue()
       })
       )
@@ -2557,7 +2559,7 @@ document.getElementById('scenariotab').addEventListener('click', function (event
   if (_target = event.target.closest('input:not([type="checkbox"]).expressionAttr, textarea.expressionAttr')) { //ctrl-click input popup
     jeeP.PREV_FOCUS = _target //Place new block next
     if (event.ctrlKey) {
-      var selfInput = _target
+      const selfInput = _target
       jeeDialog.prompt({
         title: '{{Edition}}',
         width: '80%',
@@ -2585,7 +2587,7 @@ document.getElementById('scenariotab').addEventListener('click', function (event
   }
 
   if (_target = event.target.closest('button.bt_selectJeeDialogCmdExpression')) { //ctrl-click input popup getSelectModal
-    var expression = _target.closest('.jeeDialogPrompt').querySelector('.promptAttr')
+    const expression = _target.closest('.jeeDialogPrompt').querySelector('.promptAttr')
     jeedom.cmd.getSelectModal({}, function (result) {
       expression.insertAtCursor(result.human)
     })
@@ -2631,7 +2633,7 @@ document.getElementById('scenariotab').addEventListener('click', function (event
 
   if (_target = event.target.closest('.bt_showElse')) {
     let icon = _target.querySelector(':scope > i') || event.target
-    let elElse = _target.closest('.element').querySelector(':scope > .subElementELSE')
+    const elElse = _target.closest('.element').querySelector(':scope > .subElementELSE')
     if (icon == null) return
     if (icon.hasClass('fa-sort-down')) {
       icon.removeClass('fa-sort-down').addClass('fa-sort-up')
@@ -2651,24 +2653,24 @@ document.getElementById('scenariotab').addEventListener('click', function (event
   }
 
   if (_target = event.target.closest('.bt_collapse')) {
-    var open = _target.querySelector(':scope > i').hasClass('fa-eye') ? true : false
-
+    const open = _target.querySelector(':scope > i').hasClass('fa-eye') ? true : false
+    let changeThese
     if (event.ctrlKey || event.metaKey) {
       changeThese = _target.closest('.expressions')?.querySelectorAll('.bt_collapse') || document.querySelectorAll('.bt_collapse')
     } else {
-      var changeThese = [_target]
+      changeThese = [_target]
     }
 
-    for (_target of changeThese) {
-      var icon = _target.querySelector(':scope > i')
+    for (const _item of changeThese) {
+      const icon = _item.querySelector(':scope > i')
       if (open) { // -> Collapse!
         icon.removeClass('fa-eye').addClass('fa-eye-slash')
-        _target.closest('.element').addClass('elementCollapse')
-        _target.setAttribute('value', 1)
-        _target.setAttribute('title', "{{Afficher ce bloc.<br>Ctrl+click: tous.}}")
+        _item.closest('.element').addClass('elementCollapse')
+        _item.setAttribute('value', 1)
+        _item.setAttribute('title', "{{Afficher ce bloc.<br>Ctrl+click: tous.}}")
         //update action, comment and code blocPreview:
-        var txt, _el, id
-        _target.closest('.element').querySelectorAll('.blocPreview').forEach(function (_blocPreview) {
+        let txt, _el, id
+        _item.closest('.element').querySelectorAll('.blocPreview').forEach(function (_blocPreview) {
           txt = '<i>Unfound</i>'
           _el = _blocPreview.closest('.element')
           if (_el.hasClass('elementACTION')) {
@@ -2690,9 +2692,9 @@ document.getElementById('scenariotab').addEventListener('click', function (event
         })
       } else { // -> Uncollapse!
         icon.addClass('fa-eye').removeClass('fa-eye-slash')
-        _target.closest('.element').removeClass('elementCollapse')
-        _target.setAttribute('value', 0)
-        _target.setAttribute('title', "{{Masquer ce bloc.<br>Ctrl+click: tous.}}")
+        _item.closest('.element').removeClass('elementCollapse')
+        _item.setAttribute('value', 0)
+        _item.setAttribute('title', "{{Masquer ce bloc.<br>Ctrl+click: tous.}}")
         jeeP.setEditors()
       }
     }
@@ -2708,8 +2710,8 @@ document.getElementById('scenariotab').addEventListener('click', function (event
   }
 
   if (_target = event.target.closest('.bt_selectCmdExpression')) {
-    var expression = _target.closest('.expression')
-    var type = 'info'
+    const expression = _target.closest('.expression')
+    let type = 'info'
     if (expression.querySelector('.expressionAttr[data-l1key="type"]').jeeValue() == 'action') {
       type = 'action'
     }
@@ -2730,13 +2732,13 @@ document.getElementById('scenariotab').addEventListener('click', function (event
       }
 
       if (expression.querySelector('.expressionAttr[data-l1key="type"]').jeeValue() == 'condition') {
-        var condType = _target.closest('.subElement')
+        const condType = _target.closest('.subElement')
         if (!condType.hasClass('subElementIF') && !condType.hasClass('subElementFOR') && !condType.hasClass('subElementWHILE')) {
           expression.querySelector('.expressionAttr[data-l1key="expression"]').insertAtCursor(result.human)
           return
         }
 
-        var message = jeeP.getSelectCmdExpressionMessage(result.cmd.subType, result.human)
+        const message = jeeP.getSelectCmdExpressionMessage(result.cmd.subType, result.human)
         jeeDialog.prompt({
           title: "{{Ajout d'une nouvelle condition}}",
           inputType: false,
@@ -2760,7 +2762,7 @@ document.getElementById('scenariotab').addEventListener('click', function (event
                 click: function (event) {
                   jeeP.setUndoStack()
                   jeeFrontEnd.modifyWithoutSave = true
-                  var condition = result.human
+                  let condition = result.human
                   condition += ' ' + document.querySelector('.conditionAttr[data-l1key="operator"]').jeeValue()
                   if (result.cmd.subType == 'string') {
                     if (document.querySelector('.conditionAttr[data-l1key="operator"]').jeeValue() == 'matches') {
@@ -2789,7 +2791,7 @@ document.getElementById('scenariotab').addEventListener('click', function (event
   }
 
   if (_target = event.target.closest('.bt_selectOtherActionExpression')) {
-    var expression = _target.closest('.expression')
+    const expression = _target.closest('.expression')
     jeedom.getSelectActionModal({
       scenario: true
     }, function (result) {
@@ -2804,7 +2806,7 @@ document.getElementById('scenariotab').addEventListener('click', function (event
   }
 
   if (_target = event.target.closest('.bt_selectScenarioExpression')) {
-    var expression = _target.closest('.expression')
+    const expression = _target.closest('.expression')
     jeedom.scenario.getSelectModal({}, function (result) {
       if (expression.querySelector('.expressionAttr[data-l1key="type"]').jeeValue() == 'action') {
         expression.querySelector('.expressionAttr[data-l1key="expression"]').jeeValue(result.human)
@@ -2817,7 +2819,7 @@ document.getElementById('scenariotab').addEventListener('click', function (event
   }
 
   if (_target = event.target.closest('.bt_selectGenericExpression')) {
-    var expression = _target.closest('.expression')
+    const expression = _target.closest('.expression')
     jeedom.config.getGenericTypeModal({ type: 'info', object: true }, function (result) {
       expression.querySelector('.expressionAttr[data-l1key="expression"]').insertAtCursor(result.human)
     })
@@ -2825,7 +2827,7 @@ document.getElementById('scenariotab').addEventListener('click', function (event
   }
 
   if (_target = event.target.closest('.bt_selectEqLogicExpression')) {
-    var expression = _target.closest('.expression')
+    const expression = _target.closest('.expression')
     jeedom.eqLogic.getSelectModal({}, function (result) {
       if (expression.querySelector('.expressionAttr[data-l1key="type"]').jeeValue() == 'action') {
         expression.querySelector('.expressionAttr[data-l1key="expression"]').jeeValue(result.human)
@@ -2851,8 +2853,8 @@ document.getElementById('scenariotab').addEventListener('click', function (event
   if (_target = event.target.closest('.fromSubElement')) {
     jeeP.setUndoStack()
 
-    var elementDiv = _target.closest('.subElement').querySelector('.expressions')
-    var newEL = domUtils.parseHTML(jeeP.addExpression({
+    const elementDiv = _target.closest('.subElement').querySelector('.expressions')
+    const newEL = domUtils.parseHTML(jeeP.addExpression({
       type: 'element',
       element: {
         type: _target.getAttribute('data-type')
@@ -2875,7 +2877,7 @@ document.getElementById('scenariotab').addEventListener('click', function (event
 
   //COPY - PASTE
   if (_target = event.target.closest('i.bt_copyElement')) {
-    var clickedBloc = _target.closest('.element')
+    const clickedBloc = _target.closest('.element')
     jeeP.clipboard = jeeP.getElement(clickedBloc)
 
     //delete all id in properties to make it unique later:
@@ -2898,12 +2900,12 @@ document.getElementById('scenariotab').addEventListener('click', function (event
     } else {
       return false
     }
-    var clickedBloc = _target.closest('.element')
+    const clickedBloc = _target.closest('.element')
 
     jeeP.setUndoStack()
     jeeP.actionOptions = []
 
-    var pastedElement = document.createElement('div')
+    let pastedElement = document.createElement('div')
     pastedElement.innerHTML = jeeP.addElement(jeeP.clipboard)
 
     //Are we pasting inside an expresion:
@@ -2951,14 +2953,14 @@ document.getElementById('scenariotab').addEventListener('click', function (event
 
 document.getElementById('scenariotab').addEventListener('change', function (event) {
   if (event.target.matches('.subElementAttr[data-l1key="options"][data-l2key="enable"]')) {
-    var checkbox = event.target
-    var element = checkbox.closest('.element')
+    const checkbox = event.target
+    const element = checkbox.closest('.element')
     if (checkbox.checked) {
       element.removeClass('disableElement')
     } else {
       element.addClass('disableElement')
     }
-    var subElement = checkbox.closest('.element').querySelector('.subElement:not(.noSortable)')
+    const subElement = checkbox.closest('.element').querySelector('.subElement:not(.noSortable)')
     if (!subElement) return
     if (checkbox.checked) {
       subElement.querySelectorAll('.expressions')?.removeClass('disableSubElement')
@@ -2969,7 +2971,7 @@ document.getElementById('scenariotab').addEventListener('change', function (even
   }
 
   if (event.target.matches('.expressionAttr[data-l1key="options"][data-l2key="enable"]')) {
-    var element = event.target.closest('.expression')
+    const element = event.target.closest('.expression')
     if (event.target.checked) {
       element.removeClass('disableSubElement')
     } else {
@@ -2980,7 +2982,7 @@ document.getElementById('scenariotab').addEventListener('change', function (even
 })
 
 document.getElementById('scenariotab').addEventListener('mouseenter', function (event) {
-  var _target = null
+  let _target = null
   if (_target = event.target.closest('button.dropdown-toggle')) {
     if (event.clientY > window.innerHeight - 220) {
       _target.closest('div.dropdown').addClass('dropup')
@@ -2991,7 +2993,7 @@ document.getElementById('scenariotab').addEventListener('mouseenter', function (
 }, { capture: true })
 
 document.getElementById('scenariotab').addEventListener('mouseout', function (event) {
-  var _target = null
+  let _target = null
   if (_target = event.target.closest('button.dropdown-toggle')) {
     if (event.clientY > window.innerHeight - 220) {
       event.target.closest('div.dropdown').addClass('dropup')
@@ -3002,11 +3004,11 @@ document.getElementById('scenariotab').addEventListener('mouseout', function (ev
 })
 
 document.getElementById('scenariotab').addEventListener('focusout', function (event) {
-  var _target = null
+  let _target = null
   if (_target = event.target.closest('.expression .expressionAttr[data-l1key="expression"]')) {
     if (_target.getAttribute('prevalue') == _target.value) return
     if (_target.closest('.expression').querySelector('.expressionAttr[data-l1key="type"]').value == 'action') {
-      var expression = _target.closest('.expression').getJeeValues('.expressionAttr')
+      const expression = _target.closest('.expression').getJeeValues('.expressionAttr')
       jeedom.cmd.displayActionOption(_target.value, init(expression[0].options), function (html) {
         _target.closest('.expression').querySelector('.expressionOptions').html(html)
         jeedomUtils.taAutosize()
@@ -3036,12 +3038,12 @@ try {
     success: function (scenarioGroupedList) {
       if (scenarioGroupedList.length == 0) return
 
-      var contextmenuitems = {}
-      var uniqId = 0
-      var items, scName, scId
-      for (var group in scenarioGroupedList) {
+      const contextmenuitems = {}
+      let uniqId = 0
+      let items, scName, scId
+      for (const group in scenarioGroupedList) {
         items = {}
-        for (var i in scenarioGroupedList[group]) {
+        for (const i in scenarioGroupedList[group]) {
           scName = scenarioGroupedList[group][i].humanName.replace('[' + group + ']', '')
           scId = scenarioGroupedList[group][i].id
           items[uniqId] = {
@@ -3065,7 +3067,7 @@ try {
           callback: function (key, options, event) {
             if (!jeedomUtils.checkPageModified()) {
               if (event.ctrlKey || event.metaKey || event.which == 2) {
-                var url = 'index.php?v=d&p=scenario&id=' + options.commands[key].id
+                let url = 'index.php?v=d&p=scenario&id=' + options.commands[key].id
                 if (window.location.hash != '') {
                   url += window.location.hash
                 }
@@ -3090,16 +3092,16 @@ try {
     appendTo: 'div#div_pageContainer',
     className: 'scenario-context-menu',
     build: function (trigger) {
-      var scGroups = []
+      const scGroups = []
       Object.keys(jeephp2js.scenarioListGroup).forEach(function (key) {
         scGroups.push(jeephp2js.scenarioListGroup[key].group)
       })
 
-      var scId = trigger.getAttribute('data-scenario_id')
-      var scName = trigger.querySelector('.name strong').innerHTML
-      var isActive = !trigger.hasClass('inactive')
+      const scId = trigger.getAttribute('data-scenario_id')
+      const scName = trigger.querySelector('.name strong').innerHTML
+      const isActive = !trigger.hasClass('inactive')
 
-      var contextmenuitems = {}
+      const contextmenuitems = {}
       contextmenuitems['scId'] = { 'name': scName + '(id: ' + scId + ')', 'id': 'scId', 'disabled': true }
       if (isActive) {
         contextmenuitems['disable'] = { 'name': '{{Rendre inactif}}', 'id': 'disable', 'icon': 'fas fa-toggle-on' }
@@ -3108,8 +3110,8 @@ try {
       }
 
       //group submenu:
-      var idx = 0
-      var items = {}
+      let idx = 0
+      let items = {}
       items['group_none'] = {
         'name': '{{Aucun}}',
         'id': 'group_none',
@@ -3131,7 +3133,7 @@ try {
       }
 
       //parent submenu
-      var items = {}
+      items = {}
       items[0] = {
         'name': '<span class="label labelObjectHuman">None</span>',
         'id': 'parent_0',
@@ -3140,8 +3142,8 @@ try {
         'jHumanName': '{{Aucun}}',
         'isHtmlName': true,
       }
-      var idx = 1
-      for (var parent of jeephp2js.objectList) {
+      idx = 1
+      for (const parent of jeephp2js.objectList) {
         items[idx] = {
           'name': parent.tag,
           'id': 'parent_' + idx,
@@ -3161,7 +3163,7 @@ try {
         callback: function (key, options) {
           if (options.commands[key].jType == 'group') {
             if (key == 'group_none') key = null
-            var scenario = {
+            const scenario = {
               id: scId,
               group: key
             }
@@ -3179,12 +3181,12 @@ try {
           }
 
           if (options.commands[key].jType == 'parent') {
-            var humanName = options.commands[key].jHumanName
-            var objectId = options.commands[key].jId
+            let humanName = options.commands[key].jHumanName
+            const objectId = options.commands[key].jId
             if (key == '0') {
               humanName = '<span class="label labelObjectHuman">None</span>'
             }
-            var scenario = {
+            const scenario = {
               id: scId,
               object_id: objectId
             }
@@ -3204,7 +3206,7 @@ try {
           }
 
           if (key == 'disable') {
-            var scenario = {
+            const scenario = {
               id: scId,
               isActive: "0"
             }
@@ -3221,7 +3223,7 @@ try {
           }
 
           if (key == 'enable') {
-            var scenario = {
+            const scenario = {
               id: scId,
               isActive: "1"
             }
