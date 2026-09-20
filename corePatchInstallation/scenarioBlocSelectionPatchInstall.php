@@ -3,7 +3,7 @@
  * Installation
  */
 
-$repository = 'https://raw.githubusercontent.com/noodom/jeedom-core-scenario-bloc-selection/main';
+$repository = 'https://raw.githubusercontent.com/noodom/jeedom-core-scenario-bloc-selection/beta';
 
 $files = [
     'desktop/php/scenario.php',
